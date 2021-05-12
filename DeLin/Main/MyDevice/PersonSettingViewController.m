@@ -39,7 +39,7 @@ static CGFloat const Cell_Height = 50.f;
     self.houseTable = [self houseTable];
     //self.cancelBtn = [self cancelBtn];
     
-    [self setNavItem];
+//    [self setNavItem];
     
 }
 

@@ -34,18 +34,18 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
-    WelcomeViewController *welcomeVC = [[WelcomeViewController alloc] init];
     DeviceInfoViewController *deviceInfoVC = [[DeviceInfoViewController alloc] init];
     //判断是否是第一次启动
     //好像如果读取bool值没有该key的时候默认为NO，没有nil的情况了
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isAutoLogin"] == NO) {
-        NSLog(@"第一次启动");
-        _navController = [[UINavigationController alloc] initWithRootViewController:welcomeVC];
-    }else if([[NSUserDefaults standardUserDefaults] boolForKey:@"isAutoLogin"] == YES){
-        NSLog(@"非第一次启动");
-
-        _navController = [[UINavigationController alloc] initWithRootViewController:deviceInfoVC];
-    }
+    self.navController = [[UINavigationController alloc] initWithRootViewController:deviceInfoVC];
+//    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isAutoLogin"] == NO) {
+//        NSLog(@"第一次启动");
+//        _navController = [[UINavigationController alloc] initWithRootViewController:welcomeVC];
+//    }else if([[NSUserDefaults standardUserDefaults] boolForKey:@"isAutoLogin"] == YES){
+//        NSLog(@"非第一次启动");
+//
+//        _navController = [[UINavigationController alloc] initWithRootViewController:deviceInfoVC];
+//    }
     self.window.rootViewController = _navController;
     [self.window makeKeyAndVisible];
     

@@ -14,8 +14,8 @@
             filePath = "DeLin/Main/MyDevice/MainViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "551"
-            endingLineNumber = "551"
+            startingLineNumber = "550"
+            endingLineNumber = "550"
             landmarkName = "-requestMainDevicesMsg:"
             landmarkType = "7">
          </BreakpointContent>

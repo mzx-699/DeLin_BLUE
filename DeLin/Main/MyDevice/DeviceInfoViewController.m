@@ -36,14 +36,14 @@ static float HEIGHT_CELL = 100.f;
     
     _msgCenterView = [self msgCenterView];
     _deviceBgView = [self deviceBgView];
-    _AddEquipmentBtn = [self AddEquipmentBtn];
+//    _AddEquipmentBtn = [self AddEquipmentBtn];
     _deviceBgView.hidden = YES;
     [self setNavItem];
     //开启自动登录
-    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isAutoLogin"] == NO) {
-        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isAutoLogin"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+//    if([[NSUserDefaults standardUserDefaults] boolForKey:@"isAutoLogin"] == NO) {
+//        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isAutoLogin"];
+//        [[NSUserDefaults standardUserDefaults] synchronize];
+//    }
 
 }
 
@@ -78,14 +78,14 @@ static float HEIGHT_CELL = 100.f;
     UIBarButtonItem *leftBarButton = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem = leftBarButton;
     
-    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    rightButton.frame = CGRectMake(0, 0, 30, 30);
-    [rightButton.widthAnchor constraintEqualToConstant:30].active = YES;
-    [rightButton.heightAnchor constraintEqualToConstant:30].active = YES;
-    [rightButton setImage:[UIImage imageNamed:@"img_person_Btn"] forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(goPerson) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
-    self.navigationItem.rightBarButtonItem = rightBarButton;
+//    UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+//    rightButton.frame = CGRectMake(0, 0, 30, 30);
+//    [rightButton.widthAnchor constraintEqualToConstant:30].active = YES;
+//    [rightButton.heightAnchor constraintEqualToConstant:30].active = YES;
+//    [rightButton setImage:[UIImage imageNamed:@"img_person_Btn"] forState:UIControlStateNormal];
+//    [rightButton addTarget:self action:@selector(goPerson) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem *rightBarButton = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+//    self.navigationItem.rightBarButtonItem = rightBarButton;
     
 }
 

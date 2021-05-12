@@ -149,7 +149,6 @@
                 make.centerX.equalTo(self.view.mas_centerX);
                 make.top.equalTo(self.view.mas_top).offset(getRectNavAndStatusHight + yAutoFit(50.f));
             }];
-            
         }else{
             [_batteryCircleView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.size.mas_equalTo(CGSizeMake(yAutoFit(217.f), yAutoFit(300)));
@@ -343,7 +342,7 @@
         [_stopSetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(ScreenWidth/3, yAutoFit(50)));
             make.left.equalTo(self.view.mas_left);
-            make.bottom.equalTo(self.view.mas_bottom).offset(yAutoFit(-5));
+            make.bottom.equalTo(self.view.mas_bottom);
         }];
         
         _stopSetBtn.layer.borderWidth = 0.5;
@@ -370,7 +369,7 @@
         [_homeSetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(ScreenWidth/3, yAutoFit(50)));
             make.centerX.equalTo(self.view.mas_centerX);
-            make.bottom.equalTo(self.view.mas_bottom).offset(yAutoFit(-5));
+            make.bottom.equalTo(self.view.mas_bottom);
         }];
         
         _homeSetBtn.layer.borderWidth = 0.5;
@@ -397,7 +396,7 @@
         [_startSetBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(ScreenWidth/3, yAutoFit(50)));
             make.right.equalTo(self.view.mas_right);
-            make.bottom.equalTo(self.view.mas_bottom).offset(yAutoFit(-5));
+            make.bottom.equalTo(self.view.mas_bottom);
         }];
         
         _startSetBtn.layer.borderWidth = 0.5;
