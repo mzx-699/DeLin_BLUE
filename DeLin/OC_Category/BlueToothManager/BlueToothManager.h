@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedBlueToothManger;
 - (void)babyDelegate;
 - (void)beginScanf;
-- (void)writeWithData:(NSData *)data toPeripheral:(CBPeripheral *)peripheral;
+- (void)writeWithData:(NSData *)data;
 - (void)connectBLE: (CBPeripheral *)pp;
 @end
 

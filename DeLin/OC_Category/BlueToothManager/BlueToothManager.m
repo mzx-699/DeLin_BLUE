@@ -43,11 +43,12 @@
     [self.baby cancelScan];
     [self.baby cancelAllPeripheralsConnection];
     [SVProgressHUD showInfoWithStatus:@"开始连接设备"];
+    [SVProgressHUD dismissWithDelay:1];
     self.baby.having(pp).and.then.connectToPeripherals().discoverServices().discoverCharacteristics().readValueForCharacteristic().discoverDescriptorsForCharacteristic().readValueForDescriptors().begin();
 }
 #pragma mark - 写
-- (void)writeWithData:(NSData *)data toPeripheral:(CBPeripheral *)connectPeripheral {
-    [connectPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+- (void)writeWithData:(NSData *)data {
+    [self.connectPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
 }
 #pragma mark - 蓝牙配置
 -(void)babyDelegate {
@@ -55,8 +56,13 @@
     NSLog(@"开始蓝牙配置");
     __weak typeof(self) weakSelf = self;
     [self.baby setBlockOnCentralManagerDidUpdateState:^(CBCentralManager *central) {
-        if (central.state == CBManagerStatePoweredOn) {
-            [SVProgressHUD showInfoWithStatus:@"设备打开成功，开始扫描设备"];
+        if (@available(iOS 10.0, *)) {
+            if (central.state == CBManagerStatePoweredOn) {
+                [SVProgressHUD showInfoWithStatus:@"设备打开成功，开始扫描设备"];
+                [SVProgressHUD dismissWithDelay:1];
+            }
+        } else {
+            // Fallback on earlier versions
         }
         NSLog(@"%@", central);
     }];
@@ -79,6 +85,7 @@
    //连接成功
     [self.baby setBlockOnConnected:^(CBCentralManager *central, CBPeripheral *peripheral) {
         [SVProgressHUD showInfoWithStatus:@"连接成功"];
+        [SVProgressHUD dismissWithDelay:1];
         weakSelf.connectPeripheral = peripheral;
         
     }];

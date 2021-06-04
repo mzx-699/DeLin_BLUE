@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1833BABB266A05CA00DE3C51 /* BlueToothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BABA266A05CA00DE3C51 /* BlueToothManager.m */; };
+		1833BAD6266A204500DE3C51 /* NetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BAD2266A204400DE3C51 /* NetWorkManager.m */; };
+		1833BAD7266A204500DE3C51 /* GizManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BAD3266A204400DE3C51 /* GizManager.m */; };
 		36085886238686B50094501B /* WorkTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36085885238686B50094501B /* WorkTimeViewController.m */; };
 		36085889238686E50094501B /* WorkAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36085888238686E50094501B /* WorkAreaViewController.m */; };
 		360A754C24D984BC00C4F501 /* img_back_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 360A754B24D984BC00C4F501 /* img_back_black.png */; };
@@ -16,7 +18,6 @@
 		360A755324D9952B00C4F501 /* img_help_English.png in Resources */ = {isa = PBXBuildFile; fileRef = 360A755224D9952B00C4F501 /* img_help_English.png */; };
 		36126D1423A9D606007B39DB /* img_mine_headerBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36126D1323A9D606007B39DB /* img_mine_headerBG@2x.png */; };
 		36126D1723AA1166007B39DB /* FinishNetWorkSuccessController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36126D1623AA1166007B39DB /* FinishNetWorkSuccessController.m */; };
-		36126D1E23AE0DD4007B39DB /* NetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36126D1D23AE0DD4007B39DB /* NetWorkManager.m */; };
 		3618FC59237D26CF00255426 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3618FC58237D26CF00255426 /* MainViewController.m */; };
 		3618FC5C237D27B100255426 /* MMSideDrawerSectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3618FC5B237D27B100255426 /* MMSideDrawerSectionHeaderView.m */; };
 		3618FC5F237D27CB00255426 /* LeftDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3618FC5E237D27CB00255426 /* LeftDrawerViewController.m */; };
@@ -88,7 +89,6 @@
 		368E509B238FF84C00AFE3B3 /* NewUserIDCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 368E509A238FF84C00AFE3B3 /* NewUserIDCell.m */; };
 		368E509E2390BB3E00AFE3B3 /* RegionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 368E509D2390BB3E00AFE3B3 /* RegionViewController.m */; };
 		368E50A12390CB4D00AFE3B3 /* RegionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 368E50A02390CB4D00AFE3B3 /* RegionCell.m */; };
-		369309DD237BE632003DAFBD /* GizManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 369309DC237BE632003DAFBD /* GizManager.m */; };
 		369309F6237C033B003DAFBD /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 369309F4237C033B003DAFBD /* BaseViewController.m */; };
 		36930A09237C064D003DAFBD /* DeviceNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36930A01237C064D003DAFBD /* DeviceNetworkViewController.m */; };
 		36930A0B237C064D003DAFBD /* FinishNetworkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36930A05237C064D003DAFBD /* FinishNetworkViewController.m */; };
@@ -245,6 +245,10 @@
 		182DEA732537014D00C50B62 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1833BAB9266A05CA00DE3C51 /* BlueToothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueToothManager.h; sourceTree = "<group>"; };
 		1833BABA266A05CA00DE3C51 /* BlueToothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueToothManager.m; sourceTree = "<group>"; };
+		1833BAD2266A204400DE3C51 /* NetWorkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkManager.m; sourceTree = "<group>"; };
+		1833BAD3266A204400DE3C51 /* GizManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GizManager.m; sourceTree = "<group>"; };
+		1833BAD4266A204400DE3C51 /* NetWorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkManager.h; sourceTree = "<group>"; };
+		1833BAD5266A204500DE3C51 /* GizManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GizManager.h; sourceTree = "<group>"; };
 		187E7EFB25403B1400E85FED /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		36085884238686B50094501B /* WorkTimeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkTimeViewController.h; sourceTree = "<group>"; };
 		36085885238686B50094501B /* WorkTimeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkTimeViewController.m; sourceTree = "<group>"; };
@@ -258,8 +262,6 @@
 		36126D1323A9D606007B39DB /* img_mine_headerBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "img_mine_headerBG@2x.png"; sourceTree = "<group>"; };
 		36126D1523AA1166007B39DB /* FinishNetWorkSuccessController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FinishNetWorkSuccessController.h; sourceTree = "<group>"; };
 		36126D1623AA1166007B39DB /* FinishNetWorkSuccessController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinishNetWorkSuccessController.m; sourceTree = "<group>"; };
-		36126D1C23AE0DD4007B39DB /* NetWorkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NetWorkManager.h; sourceTree = "<group>"; };
-		36126D1D23AE0DD4007B39DB /* NetWorkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetWorkManager.m; sourceTree = "<group>"; };
 		3618FC57237D26CF00255426 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		3618FC58237D26CF00255426 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		3618FC5A237D27B100255426 /* MMSideDrawerSectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSideDrawerSectionHeaderView.h; sourceTree = "<group>"; };
@@ -373,8 +375,6 @@
 		368E509D2390BB3E00AFE3B3 /* RegionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegionViewController.m; sourceTree = "<group>"; };
 		368E509F2390CB4D00AFE3B3 /* RegionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RegionCell.h; sourceTree = "<group>"; };
 		368E50A02390CB4D00AFE3B3 /* RegionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RegionCell.m; sourceTree = "<group>"; };
-		369309DB237BE632003DAFBD /* GizManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GizManager.h; sourceTree = "<group>"; };
-		369309DC237BE632003DAFBD /* GizManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GizManager.m; sourceTree = "<group>"; };
 		369309F4237C033B003DAFBD /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		369309F5237C033B003DAFBD /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		36930A01237C064D003DAFBD /* DeviceNetworkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceNetworkViewController.m; sourceTree = "<group>"; };
@@ -572,6 +572,10 @@
 			children = (
 				1833BAB9266A05CA00DE3C51 /* BlueToothManager.h */,
 				1833BABA266A05CA00DE3C51 /* BlueToothManager.m */,
+				1833BAD5266A204500DE3C51 /* GizManager.h */,
+				1833BAD3266A204400DE3C51 /* GizManager.m */,
+				1833BAD4266A204400DE3C51 /* NetWorkManager.h */,
+				1833BAD2266A204400DE3C51 /* NetWorkManager.m */,
 			);
 			path = BlueToothManager;
 			sourceTree = "<group>";
@@ -803,17 +807,6 @@
 			path = AniamtionManger;
 			sourceTree = "<group>";
 		};
-		369309DA237BE5E7003DAFBD /* GizManager */ = {
-			isa = PBXGroup;
-			children = (
-				369309DB237BE632003DAFBD /* GizManager.h */,
-				369309DC237BE632003DAFBD /* GizManager.m */,
-				36126D1C23AE0DD4007B39DB /* NetWorkManager.h */,
-				36126D1D23AE0DD4007B39DB /* NetWorkManager.m */,
-			);
-			path = GizManager;
-			sourceTree = "<group>";
-		};
 		369309DE237BE645003DAFBD /* image_icon */ = {
 			isa = PBXGroup;
 			children = (
@@ -923,7 +916,6 @@
 			isa = PBXGroup;
 			children = (
 				36930A10237C09BB003DAFBD /* Cell */,
-				369309DA237BE5E7003DAFBD /* GizManager */,
 				368AB2FE235F0623002B6D37 /* OC_Category */,
 				368AB2EF235F03CA002B6D37 /* Main */,
 				3663F28E235EF9D900B06F88 /* DeLin.entitlements */,
@@ -1433,6 +1425,7 @@
 				368AB340235F0623002B6D37 /* AAProgressCircleView.m in Sources */,
 				1833BABB266A05CA00DE3C51 /* BlueToothManager.m in Sources */,
 				368E5098238FA00700AFE3B3 /* UIView+AniamtionMange.m in Sources */,
+				1833BAD6266A204500DE3C51 /* NetWorkManager.m in Sources */,
 				368E509E2390BB3E00AFE3B3 /* RegionViewController.m in Sources */,
 				3653883924BFE72700858560 /* YULanguageManager.m in Sources */,
 				368AB33B235F0623002B6D37 /* NullSafe.m in Sources */,
@@ -1445,7 +1438,7 @@
 				36A9AEE82394E01A00EC8749 /* NewUserEmailViewController.m in Sources */,
 				368AB334235F0623002B6D37 /* NSString+Rounding.m in Sources */,
 				36E594172397BBE000DE4F04 /* AAPersonalFirstNameTF.m in Sources */,
-				369309DD237BE632003DAFBD /* GizManager.m in Sources */,
+				1833BAD7266A204500DE3C51 /* GizManager.m in Sources */,
 				36930A0B237C064D003DAFBD /* FinishNetworkViewController.m in Sources */,
 				36796545239DDE7600DD7B4A /* PersonSettingViewController.m in Sources */,
 				36796542239DDE1D00DD7B4A /* LogoutViewController.m in Sources */,
@@ -1478,7 +1471,6 @@
 				36126D1723AA1166007B39DB /* FinishNetWorkSuccessController.m in Sources */,
 				369C65F8235EE42F008D6230 /* AppDelegate.m in Sources */,
 				368AB332235F0623002B6D37 /* GosAlertView.m in Sources */,
-				36126D1E23AE0DD4007B39DB /* NetWorkManager.m in Sources */,
 				36085886238686B50094501B /* WorkTimeViewController.m in Sources */,
 				3618FC5C237D27B100255426 /* MMSideDrawerSectionHeaderView.m in Sources */,
 				3679654D239E6F6300DD7B4A /* AAWiFiPasswordTF.m in Sources */,

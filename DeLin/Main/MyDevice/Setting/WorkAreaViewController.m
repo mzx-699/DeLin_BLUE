@@ -7,7 +7,7 @@
 //
 
 #import "WorkAreaViewController.h"
-
+#import "BlueToothManager.h"
 @interface WorkAreaViewController () <UIPickerViewDataSource,UIPickerViewDelegate>
 
 ///@brife 帧数据控制单例
@@ -138,6 +138,7 @@
     UInt8 controlCode = 0x01;
     NSArray *data = @[@0x00,@0x01,@0x05,@0x00];
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+
 
 }
 
