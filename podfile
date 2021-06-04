@@ -12,4 +12,5 @@ pod 'Bugly'
 pod "CTMediator"
 pod 'FMDB'
 pod 'MMDrawerController'
+pod 'BabyBluetooth'
 end

@@ -1,5 +1,6 @@
 PODS:
   - ASProgressPopUpView (0.9)
+  - BabyBluetooth (0.7.0)
   - Bugly (2.5.0)
   - CocoaAsyncSocket (7.6.3)
   - CTMediator (25)
@@ -26,6 +27,7 @@ PODS:
 
 DEPENDENCIES:
   - ASProgressPopUpView
+  - BabyBluetooth
   - Bugly
   - CocoaAsyncSocket
   - CTMediator
@@ -38,8 +40,9 @@ DEPENDENCIES:
   - SVProgressHUD
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - ASProgressPopUpView
+    - BabyBluetooth
     - Bugly
     - CocoaAsyncSocket
     - CTMediator
@@ -53,6 +56,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   ASProgressPopUpView: dfe44c9a0313ac93a8092bd361b59f52c83a7560
+  BabyBluetooth: d50758aecf24d4a0ab9271d69f0f116d6bee51c9
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
   CocoaAsyncSocket: eafaa68a7e0ec99ead0a7b35015e0bf25d2c8987
   CTMediator: 830c1fc204b3a6abf2a059510c7380f56343da0f
@@ -64,6 +68,6 @@ SPEC CHECKSUMS:
   RDVTabBarController: 28a5c6546b9991cf2712d59947324c6b06603e14
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: b53f58bf1a6796fcc81d0c95fe9f73c3bd6e1604
+PODFILE CHECKSUM: 3db55b2d6208ff79c6739f1fc49687ffdf9df0d8
 
-COCOAPODS: 1.7.3
+COCOAPODS: 1.10.1
