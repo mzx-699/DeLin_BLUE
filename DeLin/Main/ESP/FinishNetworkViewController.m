@@ -10,7 +10,7 @@
 #import "AAProgressCircleView.h"
 #import "FinishNetWorkSuccessController.h"
 
-@interface FinishNetworkViewController () <GizWifiSDKDelegate>
+@interface FinishNetworkViewController ()
 
 @property (nonatomic, strong) UIView *labelBgView;
 @property (nonatomic, strong) AAProgressCircleView *networkProgressView;
@@ -30,14 +30,13 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [GizWifiSDK sharedInstance].delegate = self;
     
-    GizManager *manager = [GizManager shareInstance];
-    NSLog(@"ssid---%@",manager.ssid);
-    NSLog(@"key---%@",manager.key);
-    //开始配网状态
-    //ap配网模式
-    [[GizWifiSDK sharedInstance] setDeviceOnboardingDeploy:manager.ssid key:manager.key configMode:GizWifiSoftAP softAPSSIDPrefix:@"Robot_2_Mow" timeout:60 wifiGAgentType:nil bind:YES];
+//    GizManager *manager = [GizManager shareInstance];
+//    NSLog(@"ssid---%@",manager.ssid);
+//    NSLog(@"key---%@",manager.key);
+//    //开始配网状态
+//    //ap配网模式
+//    [[GizWifiSDK sharedInstance] setDeviceOnboardingDeploy:manager.ssid key:manager.key configMode:GizWifiSoftAP softAPSSIDPrefix:@"Robot_2_Mow" timeout:60 wifiGAgentType:nil bind:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -120,74 +119,9 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-// 实现回调  远程设备绑定
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didBindDevice:(NSError *)result did:(NSString *)did {
-    NSLog(@"远程设备绑定结果%@",result);
-    if(result.code == GIZ_SDK_SUCCESS) {
-        // 绑定成功
-        NSLog(@"绑定成功");
-        //[NSObject showHudTipStr2:LocalString(@"设备绑定成功")];
-    } else {
-        // 绑定失败
-        NSLog(@"绑定失败");
-        //[NSObject showHudTipStr2:LocalString(@"设备绑定失败")];
-    }
-    
-}
-
-// 实现配网回调
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didSetDeviceOnboarding:(NSError *)result device:(GizWifiDevice *)device {
-    if(result.code == GIZ_SDK_SUCCESS){
-        // 配置成功
-        NSLog(@"配网成功");
-        //区分设备类型 本地化
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSNumber *deviceType = [userDefaults valueForKey:@"deviceType"];
-        
-        [device setCustomInfo:[NSString stringWithFormat:@"%@",deviceType] alias:nil];
-    }
-    if(result.code == GIZ_SDK_ONBOARDING_STOPPED) {
-        // 配网终止
-        NSLog(@"配网终止");
-    }
-    
-}
-
-#pragma mark - Giz delegate
--(void)wifiSDK:(GizWifiSDK *)wifiSDK didSetDeviceOnboarding:(NSError * _Nonnull)result mac:(NSString * _Nullable)mac did:(NSString * _Nullable)did productKey:(NSString * _Nullable)productKey{
-    
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *userUid = [userDefaults valueForKey:@"uid"];
-    NSString *userToken = [userDefaults valueForKey:@"token"];
-    
-    if (result.code == GIZ_SDK_SUCCESS) {
-        self.networkProgressView.percent = 1;
-        [self.networkProgressView deleteTimer];
-        [self.networkProgressView configSecondAnimate];
-        //设备信息
-        [GizManager shareInstance].did = did;
-        [[GizWifiSDK sharedInstance] bindRemoteDevice:userUid token:userToken mac:mac productKey:productKey productSecret:GizAppproductSecret beOwner:NO];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            FinishNetWorkSuccessController *successVC = [[FinishNetWorkSuccessController alloc] init];
-            [self.navigationController pushViewController:successVC animated:YES];
-        });
-        
-    }else{
-        
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:LocalString(@"Configue result") message:LocalString(@"fail") preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:LocalString(@"I know") style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            NSLog(@"action = %@",action);
-        }];
-        [alert addAction:cancelAction];
-        [self presentViewController:alert animated:YES completion:nil];
-    }
-}
 
 - (void)finishBackAction{
     //返回上一级页面 取消配网功能
-    [[GizWifiSDK sharedInstance] stopDeviceOnboarding];//停止配网
     UIViewController *viewCtl =self.navigationController.viewControllers[2];
     [self.navigationController popToViewController:viewCtl animated:YES];
 }

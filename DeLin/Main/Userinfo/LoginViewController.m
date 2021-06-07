@@ -11,7 +11,7 @@
 #import "AAEmailTextField.h"
 #import "LoginPasswordController.h"
 
-@interface LoginViewController ()<UITextFieldDelegate,GizWifiSDKDelegate>
+@interface LoginViewController ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *labelBgView;
 @property (nonatomic, strong) AAEmailTextField *emailModelTF;
@@ -38,7 +38,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [GizWifiSDK sharedInstance].delegate = self;
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];

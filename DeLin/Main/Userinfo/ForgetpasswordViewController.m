@@ -8,7 +8,7 @@
 
 #import "ForgetpasswordViewController.h"
 
-@interface ForgetpasswordViewController () <UITextFieldDelegate,GizWifiSDKDelegate>
+@interface ForgetpasswordViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *msgCenterView;
 @property (nonatomic, strong) UIView *msgSuccessView;
@@ -44,7 +44,6 @@
  */
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [GizWifiSDK sharedInstance].delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -259,28 +258,9 @@
     return _okBtn;
 }
 
-#pragma mark - Giz回调
-
-// 实现回调
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didChangeUserPassword:(NSError *)result {
-    if(result.code == GIZ_SDK_SUCCESS) {
-        //重置密码邮件发送成功，提示用户查收
-        NSLog(@"重置密码邮件发送成功");
-        [SVProgressHUD dismiss];
-        _msgCenterView.hidden = YES;
-        _confirmBtn.hidden = YES;
-        _okBtn.hidden = NO;
-        _msgSuccessView.hidden = NO;
-    } else {
-        //重置密码邮件发送失败，弹出错误信息
-        [SVProgressHUD dismiss];
-        [NSObject showHudTipStr:LocalString(@"fail")];
-    }
-}
-
 -(void)goConfirm{
     [SVProgressHUD show];
-    [[GizWifiSDK sharedInstance] resetPassword:self.emailResetStr verifyCode:nil newPassword:nil accountType:GizUserEmail];
+//    [[GizWifiSDK sharedInstance] resetPassword:self.emailResetStr verifyCode:nil newPassword:nil accountType:GizUserEmail];
     
 }
 

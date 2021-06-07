@@ -179,41 +179,6 @@
     }
 }
 
-#pragma mark - GiZ回调
-// 实现回调
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didRegisterUser:(NSError *)result uid:(NSString *)uid token:(NSString *)token {
-    if(result.code == GIZ_SDK_SUCCESS) {
-        // 注册成功
-        [GizManager shareInstance].uid = uid;
-        [GizManager shareInstance].token = token;
-        
-        //保存用户信息
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:uid forKey:@"uid"];
-        [userDefaults setObject:token forKey:@"token"];
-        [userDefaults setObject:self.userEmail forKey:@"userEmail"];
-        [userDefaults synchronize];
-        
-        NewUserSuccessController *successVC = [[NewUserSuccessController alloc] init];
-        [self.navigationController pushViewController:successVC animated:YES];
-        //保存用户信息
-        NSString *userAddress = [userDefaults valueForKey:@"userAddress"];
-        NSString *userName = [userDefaults valueForKey:@"userName"];
-        _userInfo.address = userAddress;
-        _userInfo.name = userName;
-        NSLog(@"用户个人信息%@",self.userInfo.name);
-    } else {
-        // 注册失败
-        NSLog(@"注册失败%@",result);
-        if (result.code == 9022) {
-            [NSObject showHudTipStr:LocalString(@"email unavailable!")];
-        }else{
-            [NSObject showHudTipStr:LocalString(@"fail")];
-        }
-        
-    }
-    
-}
 
 #pragma mark - Actions
 

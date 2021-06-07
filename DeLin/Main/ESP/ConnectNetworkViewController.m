@@ -111,12 +111,12 @@
 
 -(void)ConnectWifi{
     NSString *wifiName = @"Robot_2_Mow";
-    if ([[GizManager getCurrentWifi] hasPrefix:wifiName]) {
-        FinishNetworkViewController *VC = [[FinishNetworkViewController alloc] init];
-        [self.navigationController pushViewController:VC animated:YES];
-    }else{
-        [self showAlert];
-    }
+//    if ([[GizManager getCurrentWifi] hasPrefix:wifiName]) {
+//        FinishNetworkViewController *VC = [[FinishNetworkViewController alloc] init];
+//        [self.navigationController pushViewController:VC animated:YES];
+//    }else{
+//        [self showAlert];
+//    }
 }
 
 - (void)showAlert{

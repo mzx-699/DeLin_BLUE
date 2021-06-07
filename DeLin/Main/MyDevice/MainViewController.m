@@ -15,7 +15,7 @@
 #import "SetPinCodeViewController.h"
 #import "BatteryIconCircleView.h"
 
-@interface MainViewController ()<GizWifiSDKDelegate>
+@interface MainViewController ()
 
 //@property(nonatomic,strong) MMDrawerController * drawerController;
 @property(nonatomic,strong) BatteryIconCircleView *batteryCircleView;
@@ -82,7 +82,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [GizWifiSDK sharedInstance].delegate = self;
+
     //查询时钟同步开启
     [self.timer setFireDate:[NSDate date]];
     
@@ -439,8 +439,8 @@
             self->areaMax = 600;
             //保存设备类型
             self->deviceType = @0;
-            
-            [[GizManager shareInstance].device setCustomInfo:[NSString stringWithFormat:@"%@",self->deviceType] alias:NULL];
+            //TODO - 设备信息
+//            [[GizManager shareInstance].device setCustomInfo:[NSString stringWithFormat:@"%@",self->deviceType] alias:NULL];
         }
             break;
         case 0x13://1000 type 1
@@ -448,7 +448,7 @@
             self->areaMax = 1000;
             //保存设备类型
             self->deviceType = @1;
-            [[GizManager shareInstance].device setCustomInfo:[NSString stringWithFormat:@"%@",self->deviceType] alias:NULL];
+//            [[GizManager shareInstance].device setCustomInfo:[NSString stringWithFormat:@"%@",self->deviceType] alias:NULL];
         }
             
             break;

@@ -129,7 +129,6 @@ static int noUserInteractionHeartbeat = 0;
     _frameCount++;
     //透传至机智云
     NSDictionary *transparentData = @{@"binary":sendData};
-    [[GizManager shareInstance] sendTransparentDataByGizWifiSDK:transparentData];
     //TODO - 蓝牙写
     [[BlueToothManager sharedBlueToothManger] writeWithData:sendData];
     

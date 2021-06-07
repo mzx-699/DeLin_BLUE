@@ -11,7 +11,7 @@
 #import "DeviceInfoViewController.h"
 #import "ForgetpasswordViewController.h"
 
-@interface LoginPasswordController ()<UITextFieldDelegate,GizWifiSDKDelegate>
+@interface LoginPasswordController ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) UIView *labelBgView;
 @property (nonatomic, strong) AAPasswordTF *passwordModelTF;
@@ -36,7 +36,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [GizWifiSDK sharedInstance].delegate = self;
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -171,57 +170,11 @@
     [self.passwordModelTF.inputText resignFirstResponder];
 }
 
-#pragma mark - GizWifiSDK delegate
-// 实现回调
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didUserLogin:(NSError *)result uid:(NSString *)uid token:(NSString *)token {
-    if(result.code == GIZ_SDK_SUCCESS) {
-        //登录成功
-        NSLog(@"登录成功,%@", result);
-        
-        [GizManager shareInstance].uid = uid;
-        [GizManager shareInstance].token = token;
-        
-        //保存用户信息
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        [userDefaults setObject:[GizManager shareInstance].uid forKey:@"uid"];
-        [userDefaults setObject:[GizManager shareInstance].token forKey:@"token"];
-        [userDefaults setObject:self.emailStr forKey:@"userEmail"];
-        [userDefaults synchronize];
-        //获取用户信息
-        [[GizWifiSDK sharedInstance] getUserInfo:token];
-        
-        DeviceInfoViewController *InfoVC = [[DeviceInfoViewController alloc] init];
-        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:InfoVC];
-        //iOS 13 的 presentViewController 默认有视差效果，模态出来的界面现在默认都下滑返回。一些页面必须要点确认才能消失的，需要适配。如果项目中页面高度全部是屏幕尺寸，那么多出来的导航高度会出现问题。
-        nav.modalPresentationStyle = UIModalPresentationFullScreen;
-
-        [self presentViewController:nav animated:YES completion:nil];
-        
-    } else {
-        // 登录失败
-        NSLog(@"登录失败,%@", result);
-        if (result.code == 9020) {
-            [NSObject showHudTipStr:LocalString(@"username or password error!")];
-        }else{
-            [NSObject showHudTipStr:LocalString(@"fail")];
-        }  
-        
-    }
-    
-}
-
-- (void)wifiSDK:(GizWifiSDK *)wifiSDK didGetUserInfo:(NSError *)result userInfo:(GizUserInfo *)userInfo{
-    
-    if(result.code == GIZ_SDK_SUCCESS) {
-        NSLog(@"didGetUserInfo%@",userInfo);
-    }
-    
-}
 
 #pragma mark - Actions
 - (void)goLogin{
     
-    [[GizWifiSDK sharedInstance] userLogin:self.emailStr password:self.passwordModelTF.inputText.text];
+//    [[GizWifiSDK sharedInstance] userLogin:self.emailStr password:self.passwordModelTF.inputText.text];
     
 }
 

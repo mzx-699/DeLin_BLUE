@@ -276,14 +276,14 @@
 
 -(void)goContinue{
     
-    GizManager *manager = [GizManager shareInstance];
-    manager.ssid = _wifiNameTF.text;
-    manager.key = self.passwordModelTF.inputText.text;
+//    GizManager *manager = [GizManager shareInstance];
+//    manager.ssid = _wifiNameTF.text;
+//    manager.key = self.passwordModelTF.inputText.text;
     
-    if (self.passwordModelTF.inputText.text.length > 0) {
-        ConnectNetworkViewController *VC = [[ConnectNetworkViewController alloc] init];
-        [self.navigationController pushViewController:VC animated:YES];
-    }
+//    if (self.passwordModelTF.inputText.text.length > 0) {
+//        ConnectNetworkViewController *VC = [[ConnectNetworkViewController alloc] init];
+//        [self.navigationController pushViewController:VC animated:YES];
+//    }
 }
 
 /*-(void)checkAgreement{
