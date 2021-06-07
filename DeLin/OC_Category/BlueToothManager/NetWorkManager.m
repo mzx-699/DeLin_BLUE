@@ -7,6 +7,7 @@
 //
 
 #import "NetWorkManager.h"
+#import "BlueToothManager.h"
 #import <netdb.h>
 
 ///@brife 可判断的数据帧类型数量
@@ -129,6 +130,9 @@ static int noUserInteractionHeartbeat = 0;
     //透传至机智云
     NSDictionary *transparentData = @{@"binary":sendData};
     [[GizManager shareInstance] sendTransparentDataByGizWifiSDK:transparentData];
+    //TODO - 蓝牙写
+    [[BlueToothManager sharedBlueToothManger] writeWithData:sendData];
+    
 }
 
 /*
@@ -157,6 +161,7 @@ static int noUserInteractionHeartbeat = 0;
             [data68 addObject:[NSNumber numberWithUnsignedChar:0x16]];
             
             [self send:data68 withTag:100];//机智云发送
+            
             
         });
     });

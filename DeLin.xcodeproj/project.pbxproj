@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1833BABB266A05CA00DE3C51 /* BlueToothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BABA266A05CA00DE3C51 /* BlueToothManager.m */; };
 		1833BAD6266A204500DE3C51 /* NetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BAD2266A204400DE3C51 /* NetWorkManager.m */; };
-		1833BAD7266A204500DE3C51 /* GizManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BAD3266A204400DE3C51 /* GizManager.m */; };
+		18E262C1266DBEC5000D9976 /* GizManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E262BF266DBEC5000D9976 /* GizManager.m */; };
 		36085886238686B50094501B /* WorkTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36085885238686B50094501B /* WorkTimeViewController.m */; };
 		36085889238686E50094501B /* WorkAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36085888238686E50094501B /* WorkAreaViewController.m */; };
 		360A754C24D984BC00C4F501 /* img_back_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 360A754B24D984BC00C4F501 /* img_back_black.png */; };
@@ -246,10 +246,10 @@
 		1833BAB9266A05CA00DE3C51 /* BlueToothManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlueToothManager.h; sourceTree = "<group>"; };
 		1833BABA266A05CA00DE3C51 /* BlueToothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueToothManager.m; sourceTree = "<group>"; };
 		1833BAD2266A204400DE3C51 /* NetWorkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkManager.m; sourceTree = "<group>"; };
-		1833BAD3266A204400DE3C51 /* GizManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GizManager.m; sourceTree = "<group>"; };
 		1833BAD4266A204400DE3C51 /* NetWorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkManager.h; sourceTree = "<group>"; };
-		1833BAD5266A204500DE3C51 /* GizManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GizManager.h; sourceTree = "<group>"; };
 		187E7EFB25403B1400E85FED /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		18E262BF266DBEC5000D9976 /* GizManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GizManager.m; sourceTree = "<group>"; };
+		18E262C0266DBEC5000D9976 /* GizManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GizManager.h; sourceTree = "<group>"; };
 		36085884238686B50094501B /* WorkTimeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkTimeViewController.h; sourceTree = "<group>"; };
 		36085885238686B50094501B /* WorkTimeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkTimeViewController.m; sourceTree = "<group>"; };
 		36085887238686E50094501B /* WorkAreaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkAreaViewController.h; sourceTree = "<group>"; };
@@ -572,8 +572,8 @@
 			children = (
 				1833BAB9266A05CA00DE3C51 /* BlueToothManager.h */,
 				1833BABA266A05CA00DE3C51 /* BlueToothManager.m */,
-				1833BAD5266A204500DE3C51 /* GizManager.h */,
-				1833BAD3266A204400DE3C51 /* GizManager.m */,
+				18E262C0266DBEC5000D9976 /* GizManager.h */,
+				18E262BF266DBEC5000D9976 /* GizManager.m */,
 				1833BAD4266A204400DE3C51 /* NetWorkManager.h */,
 				1833BAD2266A204400DE3C51 /* NetWorkManager.m */,
 			);
@@ -1438,7 +1438,7 @@
 				36A9AEE82394E01A00EC8749 /* NewUserEmailViewController.m in Sources */,
 				368AB334235F0623002B6D37 /* NSString+Rounding.m in Sources */,
 				36E594172397BBE000DE4F04 /* AAPersonalFirstNameTF.m in Sources */,
-				1833BAD7266A204500DE3C51 /* GizManager.m in Sources */,
+				18E262C1266DBEC5000D9976 /* GizManager.m in Sources */,
 				36930A0B237C064D003DAFBD /* FinishNetworkViewController.m in Sources */,
 				36796545239DDE7600DD7B4A /* PersonSettingViewController.m in Sources */,
 				36796542239DDE1D00DD7B4A /* LogoutViewController.m in Sources */,

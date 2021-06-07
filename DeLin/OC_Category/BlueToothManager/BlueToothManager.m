@@ -6,7 +6,7 @@
 //
 
 #import "BlueToothManager.h"
-
+#import "NetWorkManager.h"
 @interface BlueToothManager ()
 @property (nonatomic, strong) BabyBluetooth *baby;
 @property (nonatomic, strong) CBCharacteristic *notifyCharacteristic;
@@ -34,6 +34,26 @@
         _peripheralArray = [[NSMutableArray alloc] initWithCapacity:10];
     }
     return _peripheralArray;
+}
+- (void)checkOutFrame:(NSData *)data{
+    
+    //把读到的数据复制一份
+    NSData *recvBuffer = [NSData dataWithData:data];
+    NSUInteger recvLen = [recvBuffer length];
+    NSLog(@"收到一条帧： %@",data);
+    UInt8 *recv = (UInt8 *)[recvBuffer bytes];
+    if (recvLen > 1000) {
+        return;
+    }
+    //把接收到的数据存放在recvData数组中
+    NSMutableArray *recvData = [[NSMutableArray alloc] init];
+    NSUInteger j = 0;
+    while (j < recvLen) {
+        [recvData addObject:[NSNumber numberWithUnsignedChar:recv[j]]];
+        j++;
+    }
+    [[NetWorkManager shareNetWorkManager] handle68Message:recvData];
+    
 }
 #pragma mark - 开始扫描
 - (void)beginScanf {
@@ -118,6 +138,7 @@
                     [weakSelf.baby notify:peripheral characteristic:weakSelf.notifyCharacteristic block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
                         NSLog(@"notify %@", characteristics.value);
                         NSLog(@"notify Str %@", [[NSString alloc] initWithData:characteristics.value encoding:NSUTF8StringEncoding]);
+                        [weakSelf checkOutFrame:characteristics.value];
                     }];
                 }
                 else if ([tempChara.UUID.UUIDString isEqualToString:@"FFF2"]) {
