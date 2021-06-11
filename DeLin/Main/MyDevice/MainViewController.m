@@ -776,7 +776,9 @@
 - (void)getMainDeviceMsg{
     UInt8 controlCode = 0x01;
     NSArray *data = @[@0x00,@0x01,@0x00,@0x00];
-    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+        [SVProgressHUD dismiss];
+    }];
 }
 //校准机器时间
 - (void)setMowerTime{
@@ -788,7 +790,9 @@
     UInt8 controlCode = 0x01;
     NSArray *data = @[@0x00,@0x01,@0x03,@0x01,[NSNumber numberWithUnsignedInteger:[dataCom year] / 100],[NSNumber numberWithUnsignedInteger:[dataCom year] % 100],[NSNumber numberWithUnsignedInteger:[dataCom month]],[NSNumber numberWithUnsignedInteger:[dataCom day]],[NSNumber numberWithUnsignedInteger:[dataCom hour]],[NSNumber numberWithUnsignedInteger:[dataCom minute]]];
     
-    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+        [SVProgressHUD dismiss];
+    }];
 }
 
 - (void)stoped{
@@ -799,7 +803,10 @@
         [SVProgressHUD show];
         UInt8 controlCode = 0x01;
         NSArray *data = @[@0x00,@0x01,@0x02,@0x01];
-        [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+        [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+            [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+            [SVProgressHUD dismissWithDelay:1.0];
+        }];
         
         timeT = currentTimeT;
         
@@ -824,7 +831,10 @@
         [SVProgressHUD show];
         UInt8 controlCode = 0x01;
         NSArray *data = @[@0x00,@0x01,@0x01,@0x01];
-        [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+        [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+            [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+            [SVProgressHUD dismissWithDelay:1.0];
+        }];
         
         timeT = currentTimeT;
         
@@ -850,7 +860,10 @@
         [SVProgressHUD show];
         UInt8 controlCode = 0x01;
         NSArray *data = @[@0x00,@0x01,@0x09,@0x01];
-        [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+        [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+            [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+            [SVProgressHUD dismissWithDelay:1.0];
+        }];
         //延时 标志位
         [NetWorkManager shareNetWorkManager].timeOutFlag = 1;
         //超时判断

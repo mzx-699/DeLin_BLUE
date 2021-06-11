@@ -14,7 +14,8 @@
 #import "InputPINViewController.h"
 #import "YTFAlertController.h"
 #import "BlueToothManager.h"
-
+#import "WorkTimeViewController.h"
+#import "MainViewController.h"
 NSString *const CellIdentifier_DeviceList = @"CellID_DeviceList";
 static float HEIGHT_CELL = 100.f;
 
@@ -272,6 +273,11 @@ static float HEIGHT_CELL = 100.f;
 
     InputPINViewController *inputPINVC = [[InputPINViewController alloc] init];
     [self.navigationController pushViewController:inputPINVC animated:YES];
+    //TODO - test
+//    WorkTimeViewController *vc = [WorkTimeViewController new];
+//    MainViewController *vc = [MainViewController new];
+//        [self.navigationController pushViewController:vc animated:YES];
+
     
 }
 

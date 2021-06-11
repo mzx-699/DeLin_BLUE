@@ -15,11 +15,12 @@ typedef enum{
     getHome,
     getStop,
     setCurrentTime,
-    getWorkTime,
+    getWorkTimeMonToWendes,
     getWorkArea,
     inputPINCode,
     reSetPINCode,
     getStart,
+    getWorkTimeThursToSun,
     otherMsgType
 }MsgType68;
 
@@ -69,7 +70,7 @@ static NSInteger tempCountVer = 1000;
 + (void)destroyInstance;
 
 ///@brief Frame68帧发送方法
-- (void)sendData68With:(UInt8)controlCode data:(NSArray *)data failuer:(nullable void(^)(void))failure;
+- (void)sendData68With:(UInt8)controlCode data:(NSArray *)data failuer:(nullable void(^)(void))failure andSuccessBlock:(writeSuccessBlock)writeSuccessBlock;
 
 @end
 

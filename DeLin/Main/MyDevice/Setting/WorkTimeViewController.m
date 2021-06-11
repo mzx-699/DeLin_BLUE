@@ -24,7 +24,7 @@ NSString *const CellIdentifier_WorkTime = @"CellID_WorkTime";
 @property (nonatomic, strong) NSMutableArray  *workingHoursArray;
 @property (nonatomic, strong) NSMutableArray  *workingMinuteArray;
 
-@property (nonatomic, strong) NSMutableArray  *selectrowArray; //21个状态 7天*（分钟+小时+状态）
+@property (nonatomic, strong) NSMutableArray  *selectrowArray; //21个状态 7天*（小时+分钟+状态）
 @property (nonatomic) int flag;//0:不发送,1:可以发送
 
 @property (nonatomic, strong) NSTimer *timer;
@@ -44,6 +44,7 @@ static CGFloat cellHeight = 60.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self inquireWorktimeSetting];
     //初始化数组 要提前
     [self initDataArray];
     [self setNavItem];
@@ -59,17 +60,19 @@ static CGFloat cellHeight = 60.0;
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    [self inquireWorktimeSetting];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recieveWorkingTimeMonToWendes:) name:@"recieveWorkingTimeMonToWendes" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recieveWorkingTimeThursToSun:) name:@"recieveWorkingTimeThursToSun" object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recieveWorkingTime:) name:@"recieveWorkingTime" object:nil];
-    
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [SVProgressHUD dismiss];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"recieveWorkingTime" object:nil];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"recieveWorkingTimeMonToWendes" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"recieveWorkingTimeThursToSun" object:nil];
     [_timer setFireDate:[NSDate distantFuture]];
     [_timer invalidate];
     _timer = nil;
@@ -347,11 +350,19 @@ static CGFloat cellHeight = 60.0;
 - (void)inquireWorktimeSetting{
 
     UInt8 controlCode = 0x01;
-    NSArray *data = @[@0x00,@0x01,@0x04,@0x00];
-    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+    NSArray *dataMonToWendes = @[@0x00,@0x01,@0x04,@0x00];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataMonToWendes failuer:nil andSuccessBlock:^{
+        [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+        [SVProgressHUD dismissWithDelay:1.0];
+    }];
+    NSArray *dataThursToSun = @[@0x00,@0x01,@0x0b,@0x00];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataThursToSun failuer:nil andSuccessBlock:^{
+        [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+        [SVProgressHUD dismissWithDelay:1.0];
+    }];
 }
 
-- (void)recieveWorkingTime:(NSNotification *)nsnotification{
+- (void)recieveWorkingTimeMonToWendes:(NSNotification *)nsnotification{
     _flag = 1;
     
     //停掉重发机制
@@ -361,24 +372,15 @@ static CGFloat cellHeight = 60.0;
     NSNumber *monHour = 0;
     NSNumber *tueHour = 0;
     NSNumber *wedHour = 0;
-    NSNumber *thuHour = 0;
-    NSNumber *friHour = 0;
-    NSNumber *satHour = 0;
-    NSNumber *sunHour = 0;
+    
     NSNumber *monMinute = 0;
     NSNumber *tueMinute = 0;
     NSNumber *wedMinute = 0;
-    NSNumber *thuMinute = 0;
-    NSNumber *friMinute = 0;
-    NSNumber *satMinute = 0;
-    NSNumber *sunMinute = 0;
+    
     NSNumber *monState = 0;
     NSNumber *tueState = 0;
     NSNumber *wedState = 0;
-    NSNumber *thuState = 0;
-    NSNumber *friState = 0;
-    NSNumber *satState = 0;
-    NSNumber *sunState = 0;
+    
     if (dict[@"monHour"]) {
         monHour = dict[@"monHour"];
     }
@@ -388,6 +390,65 @@ static CGFloat cellHeight = 60.0;
     if (dict[@"wedHour"]) {
         wedHour = dict[@"wedHour"];
     }
+    if (dict[@"monMinute"]) {
+        monMinute = dict[@"monMinute"];
+    }
+    if (dict[@"tueMinute"]) {
+        tueMinute = dict[@"tueMinute"];
+    }
+    if (dict[@"wedMinute"]) {
+        wedMinute = dict[@"wedMinute"];
+    }
+    if (dict[@"monState"]) {
+        monState = dict[@"monState"];
+    }
+    if (dict[@"tueState"]) {
+        tueState = dict[@"tueState"];
+    }
+    if (dict[@"wedState"]) {
+        wedState = dict[@"wedState"];
+    }
+    
+    [_selectrowArray replaceObjectAtIndex:0 withObject:monHour];
+    [_selectrowArray replaceObjectAtIndex:1 withObject:tueHour];
+    [_selectrowArray replaceObjectAtIndex:2 withObject:wedHour];
+    
+    [_selectrowArray replaceObjectAtIndex:7 withObject:monMinute];
+    [_selectrowArray replaceObjectAtIndex:8 withObject:tueMinute];
+    [_selectrowArray replaceObjectAtIndex:9 withObject:wedMinute];
+    
+    [_selectrowArray replaceObjectAtIndex:14 withObject:monState];
+    [_selectrowArray replaceObjectAtIndex:15 withObject:tueState];
+    [_selectrowArray replaceObjectAtIndex:16 withObject:wedState];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.workTimeTable reloadData];
+    });
+    
+}
+- (void)recieveWorkingTimeThursToSun:(NSNotification *)nsnotification{
+    _flag = 1;
+    
+    //停掉重发机制
+    [_timer setFireDate:[NSDate distantFuture]];
+    
+    NSDictionary *dict = [nsnotification userInfo];
+
+    NSNumber *thuHour = 0;
+    NSNumber *friHour = 0;
+    NSNumber *satHour = 0;
+    NSNumber *sunHour = 0;
+    
+    NSNumber *thuMinute = 0;
+    NSNumber *friMinute = 0;
+    NSNumber *satMinute = 0;
+    NSNumber *sunMinute = 0;
+    
+    NSNumber *thuState = 0;
+    NSNumber *friState = 0;
+    NSNumber *satState = 0;
+    NSNumber *sunState = 0;
+
     if (dict[@"thuHour"]) {
         thuHour = dict[@"thuHour"];
     }
@@ -400,15 +461,6 @@ static CGFloat cellHeight = 60.0;
     if (dict[@"sunHour"]) {
         sunHour = dict[@"sunHour"];
     }
-    if (dict[@"monMinute"]) {
-        monMinute = dict[@"monMinute"];
-    }
-    if (dict[@"tueMinute"]) {
-        tueMinute = dict[@"tueMinute"];
-    }
-    if (dict[@"wedMinute"]) {
-        wedMinute = dict[@"wedMinute"];
-    }
     if (dict[@"thuMinute"]) {
         thuMinute = dict[@"thuMinute"];
     }
@@ -420,15 +472,6 @@ static CGFloat cellHeight = 60.0;
     }
     if (dict[@"sunMinute"]) {
         sunMinute = dict[@"sunMinute"];
-    }
-    if (dict[@"monState"]) {
-        monState = dict[@"monState"];
-    }
-    if (dict[@"tueState"]) {
-        tueState = dict[@"tueState"];
-    }
-    if (dict[@"wedState"]) {
-        wedState = dict[@"wedState"];
     }
     if (dict[@"thuState"]) {
         thuState = dict[@"thuState"];
@@ -443,25 +486,16 @@ static CGFloat cellHeight = 60.0;
         sunState = dict[@"sunState"];
     }
     
-    [_selectrowArray replaceObjectAtIndex:0 withObject:monHour];
-    [_selectrowArray replaceObjectAtIndex:1 withObject:tueHour];
-    [_selectrowArray replaceObjectAtIndex:2 withObject:wedHour];
     [_selectrowArray replaceObjectAtIndex:3 withObject:thuHour];
     [_selectrowArray replaceObjectAtIndex:4 withObject:friHour];
     [_selectrowArray replaceObjectAtIndex:5 withObject:satHour];
     [_selectrowArray replaceObjectAtIndex:6 withObject:sunHour];
     
-    [_selectrowArray replaceObjectAtIndex:7 withObject:monMinute];
-    [_selectrowArray replaceObjectAtIndex:8 withObject:tueMinute];
-    [_selectrowArray replaceObjectAtIndex:9 withObject:wedMinute];
     [_selectrowArray replaceObjectAtIndex:10 withObject:thuMinute];
     [_selectrowArray replaceObjectAtIndex:11 withObject:friMinute];
     [_selectrowArray replaceObjectAtIndex:12 withObject:satMinute];
     [_selectrowArray replaceObjectAtIndex:13 withObject:sunMinute];
     
-    [_selectrowArray replaceObjectAtIndex:14 withObject:monState];
-    [_selectrowArray replaceObjectAtIndex:15 withObject:tueState];
-    [_selectrowArray replaceObjectAtIndex:16 withObject:wedState];
     [_selectrowArray replaceObjectAtIndex:17 withObject:thuState];
     [_selectrowArray replaceObjectAtIndex:18 withObject:friState];
     [_selectrowArray replaceObjectAtIndex:19 withObject:satState];
@@ -474,22 +508,44 @@ static CGFloat cellHeight = 60.0;
 }
 
 #pragma mark - set mower work time
+- (void)setMowerWorkTimeMonToWendes {
+    UInt8 controlCode = 0x01;
+    NSArray *data = @[@0x00,@0x01,@0x04,@0x01];
+    NSMutableArray *arr = [NSMutableArray new];
+    //0~7 小时 8～14 分钟 15～21
+    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(0, 3)]];
+    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(7, 3)]];
+    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(14, 3)]];
+    NSArray *workData = [data arrayByAddingObjectsFromArray:arr];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:workData failuer:nil andSuccessBlock:^{
+        [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+        [SVProgressHUD dismissWithDelay:1.0];
+    }];
+}
 
+- (void)setMowerWorkTimeThursToSun {
+    UInt8 controlCode = 0x01;
+    NSArray *data = @[@0x00,@0x01,@0x0b,@0x01];
+    NSMutableArray *arr = [NSMutableArray new];
+    //0~6 小时 7～13 分钟 14～20
+    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(3, 4)]];
+    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(10, 4)]];
+    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(17, 4)]];
+    NSArray *workData = [data arrayByAddingObjectsFromArray:arr];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:workData failuer:nil andSuccessBlock:^{
+        [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+        [SVProgressHUD dismissWithDelay:1.0];
+    }];
+}
 - (void)setMowerTime{
-    /*
-     前七位：周一至周日的时间的 小时位;
-     中七位：周一至周日的时间的 分钟位;
-     后七位：周一至周日的进行工作状态是否开启;
-     */
     NSTimeInterval currentTimeW = [NSDate date].timeIntervalSince1970;
     if (currentTimeW - timeW > 2 ) {
         
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             [SVProgressHUD show];
-            UInt8 controlCode = 0x01;
-            NSArray *data = @[@0x00,@0x01,@0x04,@0x01];
-            NSArray *workData = [data arrayByAddingObjectsFromArray:self.selectrowArray];
-            [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:workData failuer:nil];
+            
+            [self setMowerWorkTimeMonToWendes];
+            [self setMowerWorkTimeThursToSun];
             
         });
         
@@ -507,7 +563,6 @@ static CGFloat cellHeight = 60.0;
         //延时 标志位
         [NetWorkManager shareNetWorkManager].timeOutFlag = 1;
     }
-    
 }
 
 //- (void)goMowerTime

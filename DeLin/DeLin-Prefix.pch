@@ -25,6 +25,7 @@
 #import "RDVTabBarController.h"
 #import "YAlertViewController.h"
 #import "NSDate+Common.h"
+#import "BlueToothManager.h"
 #import "NetWorkManager.h"
 #import "NSString+HexToBytes.h"
 #import "GosTipView.h"

@@ -7,7 +7,11 @@
 
 #import "BlueToothManager.h"
 #import "NetWorkManager.h"
+
+
+
 @interface BlueToothManager ()
+@property (nonatomic, copy) writeSuccessBlock writeSuccessBlock;
 @property (nonatomic, strong) BabyBluetooth *baby;
 @property (nonatomic, strong) CBCharacteristic *notifyCharacteristic;
 @property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
@@ -67,8 +71,10 @@
     self.baby.having(pp).and.then.connectToPeripherals().discoverServices().discoverCharacteristics().readValueForCharacteristic().discoverDescriptorsForCharacteristic().readValueForDescriptors().begin();
 }
 #pragma mark - 写
-- (void)writeWithData:(NSData *)data {
+- (void)writeWithData:(NSData *)data andSuccessBlock:(writeSuccessBlock)writeSuccessBlock {
+    NSLog(@"%@", data);
     [self.connectPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+    self.writeSuccessBlock = writeSuccessBlock;
 }
 #pragma mark - 蓝牙配置
 -(void)babyDelegate {
@@ -93,11 +99,17 @@
         
         if (![weakSelf.peripheralArray containsObject:peripheral]) {
             [weakSelf.peripheralArray addObject:peripheral];
+            
+//            NSData *data = advertisementData[@"kCBAdvDataManufacturerData"];
+//            NSLog(@"%@", data);
+//            NSLog(@"%@", [weakSelf convertHexStrToData:@"0cc6209000000000"]);
+            //0x0cc6209000000000
             if ([weakSelf.delegate respondsToSelector:@selector(reloadData)]) {
                 [weakSelf.delegate reloadData];
             }
             
         }
+        
         NSLog(@"%@", weakSelf.peripheralArray);
         
     }];
@@ -158,15 +170,22 @@
 //            return YES;
 //        }
 //        return NO;
-        
+        NSData *data = advertisementData[@"kCBAdvDataManufacturerData"];
         //设置查找规则是名称大于0 ， the search rule is peripheral.name length > 0
-        if (peripheralName.length >0) {
+        if ([peripheralName isEqualToString:@"CH9140BLE2U"] && [data isEqualToData:[weakSelf convertHexStrToData:@"0cc6209000000000"]]) {
             return YES;
         }
         return NO;
     }];
 
-    
+    [self.baby setBlockOnDidWriteValueForCharacteristic:^(CBCharacteristic *characteristic, NSError *error) {
+//        [SVProgressHUD dismiss];
+        if (weakSelf.writeSuccessBlock) {
+            weakSelf.writeSuccessBlock();
+        }
+//        [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+//        [SVProgressHUD dismissWithDelay:1.0];
+    }];
     [self.baby setBlockOnCancelAllPeripheralsConnectionBlock:^(CBCentralManager *centralManager) {
         NSLog(@"setBlockOnCancelAllPeripheralsConnectionBlock");
     }];
@@ -196,5 +215,33 @@
                                    discoverWithCharacteristics:nil];
     
 
+}
+
+- (NSData *)convertHexStrToData:(NSString *)str
+{
+    if (!str || [str length] == 0) {
+        return nil;
+    }
+    
+    NSMutableData *hexData = [[NSMutableData alloc] initWithCapacity:20];
+    NSRange range;
+    if ([str length] % 2 == 0) {
+        range = NSMakeRange(0, 2);
+    } else {
+        range = NSMakeRange(0, 1);
+    }
+    for (NSInteger i = range.location; i < [str length]; i += 2) {
+        unsigned int anInt;
+        NSString *hexCharStr = [str substringWithRange:range];
+        NSScanner *scanner = [[NSScanner alloc] initWithString:hexCharStr];
+        
+        [scanner scanHexInt:&anInt];
+        NSData *entity = [[NSData alloc] initWithBytes:&anInt length:1];
+        [hexData appendData:entity];
+        
+        range.location += range.length;
+        range.length = 2;
+    }
+    return hexData;
 }
 @end

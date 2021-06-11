@@ -137,7 +137,10 @@
 
     UInt8 controlCode = 0x01;
     NSArray *data = @[@0x00,@0x01,@0x05,@0x00];
-    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+        [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+        [SVProgressHUD dismissWithDelay:1.0];
+    }];
 
 
 }
@@ -170,7 +173,10 @@
             [SVProgressHUD show];
             UInt8 controlCode = 0x01;
             NSArray *data = @[@0x00,@0x01,@0x05,@0x01,area1,area2];
-            [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+            [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+                [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+                [SVProgressHUD dismissWithDelay:1.0];
+            }];
             
         });
         timeA = currentTimeA;

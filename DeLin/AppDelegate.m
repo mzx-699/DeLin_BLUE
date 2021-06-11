@@ -8,11 +8,10 @@
 
 #import "AppDelegate.h"
 #import <Bugly/Bugly.h>
-#import <GizWifiSDK/GizWifiSDK.h>
 #import "WelcomeViewController.h"
 #import "IQKeyboardManager.h"
 #import "DeviceInfoViewController.h"
-
+#import "WorkTimeViewController.h"
 @interface AppDelegate ()
 
 
@@ -28,13 +27,13 @@
     
     [self customizeInterface];
     [self keyBoardManager];
-    [self initGiz];
     
 
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     
     DeviceInfoViewController *deviceInfoVC = [[DeviceInfoViewController alloc] init];
+//    WorkTimeViewController *vc = [WorkTimeViewController new];
     //判断是否是第一次启动
     //好像如果读取bool值没有该key的时候默认为NO，没有nil的情况了
     self.navController = [[UINavigationController alloc] initWithRootViewController:deviceInfoVC];
@@ -56,7 +55,6 @@
     NSDictionary *parameters =@{@"appId":GizAppId,@"appSecret": GizAppSecret};
     NSDictionary *product = @{@"productKey":GizAppproductKey,@"productSecret":GizAppproductSecret};
     NSArray *productArray = @[product];
-    [GizWifiSDK startWithAppInfo:parameters productInfo:productArray cloudServiceInfo: nil autoSetDeviceDomain:YES];
 }
 
 - (void)customizeInterface {

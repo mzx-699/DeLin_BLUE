@@ -7,11 +7,11 @@
 //
 
 #import "NetWorkManager.h"
-#import "BlueToothManager.h"
+
 #import <netdb.h>
 
 ///@brife 可判断的数据帧类型数量
-#define LEN 9
+#define LEN 10
 
 static dispatch_once_t oneToken;
 
@@ -83,19 +83,19 @@ static int noUserInteractionHeartbeat = 0;
 }
 //超时提醒
 - (void)timeOut{
-    if (_timeOutFlag == 1) {
-        _timeOutFlag = 0;
-        [SVProgressHUD dismiss];
-        [NSObject showHudTipStr2:LocalString(@"time out")];
-        [_atimeOut setFireDate:[NSDate distantFuture]];
-    }
+//    if (_timeOutFlag == 1) {
+//        _timeOutFlag = 0;
+////        [SVProgressHUD dismiss];
+////        [NSObject showHudTipStr2:LocalString(@"time out")];
+////        [_atimeOut setFireDate:[NSDate distantFuture]];
+//    }
     
     
 }
 #pragma mark - 帧的发送
 
 //帧的发送
-- (void)send:(NSMutableArray *)msg withTag:(NSUInteger)tag
+- (void)send:(NSMutableArray *)msg withTag:(NSUInteger)tag andSuccessBlock:(writeSuccessBlock)writeSuccessBlock
 {
 //    if ([GizManager shareInstance].device.netStatus == GizDeviceControlled)
 //    {
@@ -128,16 +128,17 @@ static int noUserInteractionHeartbeat = 0;
     NSLog(@"发送一条帧： %@",sendData);
     _frameCount++;
     //透传至机智云
-    NSDictionary *transparentData = @{@"binary":sendData};
+//    NSDictionary *transparentData = @{@"binary":sendData};
     //TODO - 蓝牙写
-    [[BlueToothManager sharedBlueToothManger] writeWithData:sendData];
+    [[BlueToothManager sharedBlueToothManger] writeWithData:sendData andSuccessBlock:writeSuccessBlock];
+//    [SVProgressHUD dismiss];
     
 }
 
 /*
  *发送帧组成模版
  */
-- (void)sendData68With:(UInt8)controlCode data:(NSArray *)data failuer:(nullable void(^)(void))failure{
+- (void)sendData68With:(UInt8)controlCode data:(NSArray *)data failuer:(nullable void(^)(void))failure andSuccessBlock:(writeSuccessBlock)writeSuccessBlock{
     
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         dispatch_sync(self->_queue, ^{
@@ -148,10 +149,10 @@ static int noUserInteractionHeartbeat = 0;
             [data68 addObject:[NSNumber numberWithUnsignedInteger:0x68]];
             [data68 addObject:[NSNumber numberWithUnsignedInteger:controlCode]];
             
-            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
-            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
-            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
-            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
+//            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
+//            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
+//            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
+//            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
             
             [data68 addObject:[NSNumber numberWithInt:self->_frameCount]];
             [data68 addObject:[NSNumber numberWithInteger:data.count]];
@@ -159,7 +160,7 @@ static int noUserInteractionHeartbeat = 0;
             [data68 addObject:[NSNumber numberWithUnsignedChar:[NSObject getCS:data68]]];
             [data68 addObject:[NSNumber numberWithUnsignedChar:0x16]];
             
-            [self send:data68 withTag:100];//机智云发送
+            [self send:data68 withTag:100 andSuccessBlock:writeSuccessBlock];//机智云发送
             
             
         });
@@ -208,16 +209,16 @@ static int noUserInteractionHeartbeat = 0;
                     
                     resendCount = 0;
                     NSMutableDictionary *dataDic = [[NSMutableDictionary alloc]init];
-                    NSNumber *robotPower = _recivedData68[12];
-                    NSNumber *robotState = _recivedData68[13];
-                    NSNumber *robotError = _recivedData68[14];
-                    NSNumber *nextWorkHour = [NSNumber numberWithInt:[_recivedData68[15] intValue]];
-                    NSNumber *nextWorkMinute = [NSNumber numberWithInt:[_recivedData68[16] intValue]];
+                    NSNumber *robotPower = _recivedData68[8];
+                    NSNumber *robotState = _recivedData68[9];
+                    NSNumber *robotError = _recivedData68[10];
+                    NSNumber *nextWorkHour = [NSNumber numberWithInt:[_recivedData68[11] intValue]];
+                    NSNumber *nextWorkMinute = [NSNumber numberWithInt:[_recivedData68[12] intValue]];
                     
-                    NSNumber *nextWorkarea = [NSNumber numberWithInt:[_recivedData68[17] intValue] * 256 + [_recivedData68[18] intValue]];
-                    NSNumber *rainAlert = _recivedData68[19];
-                    NSNumber *deviceType = _recivedData68[20];
-                    NSNumber *robotF_Error = _recivedData68[21];
+                    NSNumber *nextWorkarea = [NSNumber numberWithInt:[_recivedData68[13] intValue] * 256 + [_recivedData68[14] intValue]];
+                    NSNumber *rainAlert = _recivedData68[15];
+                    NSNumber *deviceType = _recivedData68[16];
+                    NSNumber *robotF_Error = _recivedData68[17];
                     
                     [dataDic setObject:robotPower forKey:@"robotPower"];
                     [dataDic setObject:robotState forKey:@"robotState"];
@@ -231,53 +232,59 @@ static int noUserInteractionHeartbeat = 0;
                     
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"getMainDeviceMsg" object:nil userInfo:dataDic];
                     
-                }else if (self.msg68Type == getWorkTime){
+                }else if (self.msg68Type == getWorkTimeMonToWendes){
                     
                     NSMutableDictionary *dataDic = [[NSMutableDictionary alloc] init];
-                    NSNumber *monHour = _recivedData68[12];
-                    NSNumber *tueHour = _recivedData68[13];
-                    NSNumber *wedHour = _recivedData68[14];
-                    NSNumber *thuHour = _recivedData68[15];
-                    NSNumber *friHour = _recivedData68[16];
-                    NSNumber *satHour = _recivedData68[17];
-                    NSNumber *sunHour = _recivedData68[18];
-                    NSNumber *monMinute = _recivedData68[19];
-                    NSNumber *tueMinute = _recivedData68[20];
-                    NSNumber *wedMinute = _recivedData68[21];
-                    NSNumber *thuMinute = _recivedData68[22];
-                    NSNumber *friMinute = _recivedData68[23];
-                    NSNumber *satMinute = _recivedData68[24];
-                    NSNumber *sunMinute = _recivedData68[25];
-                    NSNumber *monState = _recivedData68[26];
-                    NSNumber *tueState = _recivedData68[27];
-                    NSNumber *wedState = _recivedData68[28];
-                    NSNumber *thuState = _recivedData68[29];
-                    NSNumber *friState = _recivedData68[30];
-                    NSNumber *satState = _recivedData68[31];
-                    NSNumber *sunState = _recivedData68[32];
+                    NSNumber *monHour = _recivedData68[8];
+                    NSNumber *tueHour = _recivedData68[13-4];
+                    NSNumber *wedHour = _recivedData68[14-4];
+                    NSNumber *monMinute = _recivedData68[19-4];
+                    NSNumber *tueMinute = _recivedData68[20-4];
+                    NSNumber *wedMinute = _recivedData68[21-4];
+                    NSNumber *monState = _recivedData68[26-4];
+                    NSNumber *tueState = _recivedData68[27-4];
+                    NSNumber *wedState = _recivedData68[28-4];
                     [dataDic setObject:monHour forKey:@"monHour"];
                     [dataDic setObject:tueHour forKey:@"tueHour"];
                     [dataDic setObject:wedHour forKey:@"wedHour"];
+                    [dataDic setObject:monMinute forKey:@"monMinute"];
+                    [dataDic setObject:tueMinute forKey:@"tueMinute"];
+                    [dataDic setObject:wedMinute forKey:@"wedMinute"];
+                    [dataDic setObject:monState forKey:@"monState"];
+                    [dataDic setObject:tueState forKey:@"tueState"];
+                    [dataDic setObject:wedState forKey:@"wedState"];
+                    
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"recieveWorkingTimeMonToWendes" object:nil userInfo:dataDic];
+                    
+                }else if (self.msg68Type == getWorkTimeThursToSun){
+                    
+                    NSMutableDictionary *dataDic = [[NSMutableDictionary alloc] init];
+                    NSNumber *thuHour = _recivedData68[8];
+                    NSNumber *friHour = _recivedData68[9];
+                    NSNumber *satHour = _recivedData68[10];
+                    NSNumber *sunHour = _recivedData68[11];
+                    NSNumber *thuMinute = _recivedData68[12];
+                    NSNumber *friMinute = _recivedData68[13];
+                    NSNumber *satMinute = _recivedData68[14];
+                    NSNumber *sunMinute = _recivedData68[15];
+                    NSNumber *thuState = _recivedData68[16];
+                    NSNumber *friState = _recivedData68[17];
+                    NSNumber *satState = _recivedData68[18];
+                    NSNumber *sunState = _recivedData68[19];
                     [dataDic setObject:thuHour forKey:@"thuHour"];
                     [dataDic setObject:friHour forKey:@"friHour"];
                     [dataDic setObject:satHour forKey:@"satHour"];
                     [dataDic setObject:sunHour forKey:@"sunHour"];
-                    [dataDic setObject:monMinute forKey:@"monMinute"];
-                    [dataDic setObject:tueMinute forKey:@"tueMinute"];
-                    [dataDic setObject:wedMinute forKey:@"wedMinute"];
                     [dataDic setObject:thuMinute forKey:@"thuMinute"];
                     [dataDic setObject:friMinute forKey:@"friMinute"];
                     [dataDic setObject:satMinute forKey:@"satMinute"];
                     [dataDic setObject:sunMinute forKey:@"sunMinute"];
-                    [dataDic setObject:monState forKey:@"monState"];
-                    [dataDic setObject:tueState forKey:@"tueState"];
-                    [dataDic setObject:wedState forKey:@"wedState"];
                     [dataDic setObject:thuState forKey:@"thuState"];
                     [dataDic setObject:friState forKey:@"friState"];
                     [dataDic setObject:satState forKey:@"satState"];
                     [dataDic setObject:sunState forKey:@"sunState"];
                     
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"recieveWorkingTime" object:nil userInfo:dataDic];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"recieveWorkingTimeThursToSun" object:nil userInfo:dataDic];
                     
                 }else if (self.msg68Type == getWorkArea){
                     
@@ -300,11 +307,11 @@ static int noUserInteractionHeartbeat = 0;
                 if (self.msg68Type == getHome){
                     resendCount = 0;
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 0) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 0) {
                         [NSObject showHudTipStr:LocalString(@"fail")];
                     }
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 1) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 1) {
                         [NSObject showHudTipStr:LocalString(@"success")];
                     }
                     
@@ -314,11 +321,11 @@ static int noUserInteractionHeartbeat = 0;
                     [_atimeOut setFireDate:[NSDate distantFuture]];
                     
                 }else if (self.msg68Type == getStop){
-                    if ([_recivedData68[12] unsignedIntegerValue] == 0) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 0) {
                         [NSObject showHudTipStr:LocalString(@"fail")];
                     }
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 1) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 1) {
                         [NSObject showHudTipStr:LocalString(@"success")];
                     }
                     
@@ -330,11 +337,11 @@ static int noUserInteractionHeartbeat = 0;
                 }else if (self.msg68Type == setCurrentTime){
                     resendCount = 0;
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 0) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 0) {
                         [NSObject showHudTipStr:LocalString(@"fail")];
                     }
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 1) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 1) {
                         //[NSObject showHudTipStr:LocalString(@"success")];
                     }
                     
@@ -343,12 +350,12 @@ static int noUserInteractionHeartbeat = 0;
                     _timeOutFlag = 0;
                     [_atimeOut setFireDate:[NSDate distantFuture]];
                     
-                }else if (self.msg68Type == getWorkTime){
-                    if ([_recivedData68[12] unsignedIntegerValue] == 0) {
+                }else if (self.msg68Type == getWorkTimeMonToWendes){
+                    if ([_recivedData68[8] unsignedIntegerValue] == 0) {
                         [NSObject showHudTipStr:LocalString(@"fail")];
                     }
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 1) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 1) {
                         [NSObject showHudTipStr:LocalString(@"success")];
                     }
                     
@@ -358,11 +365,11 @@ static int noUserInteractionHeartbeat = 0;
                     [_atimeOut setFireDate:[NSDate distantFuture]];
                     
                 }else if (self.msg68Type == getWorkArea){
-                    if ([_recivedData68[12] unsignedIntegerValue] == 0) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 0) {
                         [NSObject showHudTipStr:LocalString(@"fail")];
                     }
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 1) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 1) {
                         [NSObject showHudTipStr:LocalString(@"success")];
                     }
                     
@@ -373,11 +380,11 @@ static int noUserInteractionHeartbeat = 0;
                     
                     
                 }else if (self.msg68Type == inputPINCode){
-                    if ([_recivedData68[12] unsignedIntegerValue] == 0) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 0) {
                         [NSObject showHudTipStr:LocalString(@"fail")];
                     }
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 1) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 1) {
                         
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"inputPINCode" object:nil userInfo:nil];
                     }
@@ -387,14 +394,14 @@ static int noUserInteractionHeartbeat = 0;
                     
                 }else if (self.msg68Type == reSetPINCode){
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 0) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 0) {
                         [NSObject showHudTipStr:LocalString(@"fail")];
                     }
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 1) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 1) {
                         [NSObject showHudTipStr:LocalString(@"success")];
                     }
-                    if ([_recivedData68[12] unsignedIntegerValue] == 2) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 2) {
                         [NSObject showHudTipStr:LocalString(@"Error password")];
                     }
                     
@@ -405,11 +412,11 @@ static int noUserInteractionHeartbeat = 0;
                     
                 }else if (self.msg68Type == getStart){
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 0) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 0) {
                         [NSObject showHudTipStr:LocalString(@"fail")];
                     }
                     
-                    if ([_recivedData68[12] unsignedIntegerValue] == 1) {
+                    if ([_recivedData68[8] unsignedIntegerValue] == 1) {
                         [NSObject showHudTipStr:LocalString(@"success")];
                     }
                     //标准位 置0
@@ -468,7 +475,7 @@ static int noUserInteractionHeartbeat = 0;
     unsigned char dataType;
     
     unsigned char type[LEN] = {
-        0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x09
+        0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x09,0x0B
     };
     /*
      getMainDeviceMsg.... 0x00 获取主界面基本信息
@@ -482,7 +489,7 @@ static int noUserInteractionHeartbeat = 0;
      getStart,.... 0x09 启动割草机
      otherMsgType....
      */
-    dataType = [data[10] unsignedIntegerValue];
+    dataType = [data[6] unsignedIntegerValue];
     //NSLog(@"%d",dataType);
     
     MsgType68 returnVal = otherMsgType;
@@ -507,7 +514,7 @@ static int noUserInteractionHeartbeat = 0;
                     break;
                     
                 case 4:
-                    returnVal = getWorkTime;
+                    returnVal = getWorkTimeMonToWendes;
                     break;
                     
                 case 5:
@@ -524,6 +531,10 @@ static int noUserInteractionHeartbeat = 0;
                     
                 case 8:
                     returnVal = getStart;
+                    break;
+                    
+                case 9:
+                    returnVal = getWorkTimeThursToSun;
                     break;
                     
                 default:
@@ -543,7 +554,7 @@ static int noUserInteractionHeartbeat = 0;
         0x00,0x01
     };
     //命令标识
-    dataType = [data[11] unsignedIntegerValue];
+    dataType = [data[7] unsignedIntegerValue];
     //NSLog(@"%d",dataType);
     
     FrameType68 returnVal = otherFrameType;

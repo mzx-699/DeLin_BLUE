@@ -247,7 +247,10 @@
             [dataContent insertObject:@0x01 atIndex:0];
             [dataContent insertObject:@0x00 atIndex:0];
             
-            [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataContent failuer:nil];
+            [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataContent failuer:nil andSuccessBlock:^{
+                [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+                [SVProgressHUD dismissWithDelay:1.0];
+            }];
             //延时 标志位
             [NetWorkManager shareNetWorkManager].timeOutFlag = 1;
             //超时判断

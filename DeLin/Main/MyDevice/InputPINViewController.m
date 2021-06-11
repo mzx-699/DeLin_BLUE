@@ -245,14 +245,17 @@
                 [dataContent addObject:[NSNumber numberWithUnsignedInteger:[self.passwordModelTF.inputText.text characterAtIndex:2] - 48]];
                 [dataContent addObject:[NSNumber numberWithUnsignedInteger:[self.passwordModelTF.inputText.text characterAtIndex:3] - 48]];
 
-                UInt8 controlCode = 0x00;
+                UInt8 controlCode = 0x01;
                 //可变插入
                 [dataContent insertObject:@0x01 atIndex:0];
                 [dataContent insertObject:@0x06 atIndex:0];
                 [dataContent insertObject:@0x01 atIndex:0];
                 [dataContent insertObject:@0x00 atIndex:0];
                 
-                [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataContent failuer:nil];
+                [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataContent failuer:nil andSuccessBlock:^{
+                    [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+                    [SVProgressHUD dismissWithDelay:1.0];
+                }];
                 //延时 标志位
                 [NetWorkManager shareNetWorkManager].timeOutFlag = 1;
                 //超时判断
@@ -276,7 +279,10 @@
 - (void)getMainDeviceMsg{
     UInt8 controlCode = 0x01;
     NSArray *data = @[@0x00,@0x01,@0x00,@0x00];
-    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+        [SVProgressHUD showSuccessWithStatus:@"发送成功"];
+        [SVProgressHUD dismissWithDelay:1.0];
+    }];
 }
 
 -(void)checkAgreement{

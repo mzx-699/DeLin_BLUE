@@ -9,6 +9,8 @@
 #import <BabyBluetooth/BabyBluetooth.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <SVProgressHUD.h>
+
+typedef void (^writeSuccessBlock)(void);
 NS_ASSUME_NONNULL_BEGIN
 @protocol BlueToothManagerDelegate <NSObject>
 @required
@@ -23,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedBlueToothManger;
 - (void)babyDelegate;
 - (void)beginScanf;
-- (void)writeWithData:(NSData *)data;
+- (void)writeWithData:(NSData *)data andSuccessBlock:(writeSuccessBlock)writeSuccessBlock;
 - (void)connectBLE: (CBPeripheral *)pp;
 @end
 

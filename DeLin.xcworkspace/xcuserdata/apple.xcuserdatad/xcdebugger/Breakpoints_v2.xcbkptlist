@@ -7,160 +7,160 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C67BB759-7CF1-4FD9-9151-AED7657D87F1"
+            uuid = "9F116CC2-2C1A-430E-A3FE-89FCE9039956"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/MyDevice/MainViewController.m"
+            filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "550"
-            endingLineNumber = "550"
-            landmarkName = "-requestMainDevicesMsg:"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "4ED62853-C96B-4B24-8CBD-32D8AA17BE48"
+            uuid = "A8414A17-2966-44E6-8118-AB6CAC255189"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/ESP/DeviceNetworkViewController.m"
+            filePath = "DeLin/Main/MyDevice/Setting/WorkTimeViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
-            landmarkName = "-wifiNameTF"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
+            landmarkName = "-inquireWorktimeSetting"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "09F4DC19-57CE-4E91-8FBC-17A858964C03"
+            uuid = "6DA99466-84AC-430D-9E5B-04166A67B77C"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/ESP/DeviceNetworkViewController.m"
+            filePath = "DeLin/OC_Category/BlueToothManager/NetWorkManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
-            landmarkName = "-wifiNameTF"
+            startingLineNumber = "133"
+            endingLineNumber = "133"
+            landmarkName = "-send:withTag:andSuccessBlock:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5E510A0C-F32B-4549-B6EC-E5986A3936D6"
+            uuid = "D7EF6ABD-8FE3-445E-88F1-DBB59E53DCC8"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/ESP/DeviceNetworkViewController.m"
+            filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "98"
-            endingLineNumber = "98"
-            landmarkName = "-wifiNameTF"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
+            landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5EF873E3-B30B-431A-ADED-2900EC1612F4"
+            uuid = "98154956-19D3-4E0D-B881-BBC4D5229566"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/ESP/DeviceNetworkViewController.m"
+            filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
-            landmarkName = "-wifiNameTF"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D7544949-4477-454B-B59A-AC3C5A7DBF17"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/MyDevice/DeviceInfoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "479E4D99-8A0D-4ACE-8694-4756AC7732F8"
+            uuid = "81F5C304-4A83-47E4-B5FE-BFF30317E479"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/MyDevice/DeviceInfoViewController.m"
+            filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "211"
-            endingLineNumber = "211"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "148"
+            endingLineNumber = "148"
+            landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E0264AA7-EE6E-4DC1-B4C9-DCC82C62239B"
-            shouldBeEnabled = "Yes"
+            uuid = "9ABBF855-18CA-44AA-9060-B2AEA36FF516"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/MyDevice/DeviceInfoViewController.m"
+            filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "198"
-            endingLineNumber = "198"
-            landmarkName = "-tableView:numberOfRowsInSection:"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
+            landmarkName = "-babyDelegate"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9ABBF855-18CA-44AA-9060-B2AEA36FF516 - e77cce542bb282c1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[BlueToothManager babyDelegate]_block_invoke_3"
+                  moduleName = "ROBOT 2 MOW"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Desktop/%E8%BD%A8%E7%89%A9%E7%A7%91%E6%8A%80/delin/DeLin_BLUE/DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "145"
+                  endingLineNumber = "145"
+                  offsetFromSymbolStart = "956">
+               </Location>
+               <Location
+                  uuid = "9ABBF855-18CA-44AA-9060-B2AEA36FF516 - e77cce542bba8227"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__32-[BlueToothManager babyDelegate]_block_invoke_4"
+                  moduleName = "ROBOT 2 MOW"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Desktop/%E8%BD%A8%E7%89%A9%E7%A7%91%E6%8A%80/delin/DeLin_BLUE/DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "146"
+                  endingLineNumber = "146"
+                  offsetFromSymbolStart = "132">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "03D7EECB-F200-41CC-8E1A-F88A1301D3DD"
-            shouldBeEnabled = "Yes"
+            uuid = "B42E11BB-6357-438E-B9F7-53D303568588"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/MyDevice/DeviceInfoViewController.m"
+            filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "212"
-            endingLineNumber = "212"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E0D693E6-1D19-416A-BE01-19E690D02FFC"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DeLin/Main/MyDevice/DeviceInfoViewController.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "214"
-            endingLineNumber = "214"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
+            startingLineNumber = "76"
+            endingLineNumber = "76"
+            landmarkName = "-writeWithData:andSuccessBlock:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
