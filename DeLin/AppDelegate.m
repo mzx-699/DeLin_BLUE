@@ -12,6 +12,7 @@
 #import "IQKeyboardManager.h"
 #import "DeviceInfoViewController.h"
 #import "WorkTimeViewController.h"
+#import "InputPINViewController.h"
 @interface AppDelegate ()
 
 
@@ -51,11 +52,6 @@
     return YES;
 }
 
-- (void)initGiz{
-    NSDictionary *parameters =@{@"appId":GizAppId,@"appSecret": GizAppSecret};
-    NSDictionary *product = @{@"productKey":GizAppproductKey,@"productSecret":GizAppproductSecret};
-    NSArray *productArray = @[product];
-}
 
 - (void)customizeInterface {
     _navigationBarAppearance = [UINavigationBar appearance];

@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface BlueToothManager : NSObject
 @property (nonatomic, strong) CBPeripheral *connectPeripheral;
 @property (nonatomic, strong) NSMutableArray *peripheralArray;
+@property (nonatomic, strong) NSMutableDictionary *peripheralNameDict;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, weak) id<BlueToothManagerDelegate> delegate;
 + (instancetype)sharedBlueToothManger;

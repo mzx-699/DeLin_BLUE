@@ -211,7 +211,7 @@ static float HEIGHT_CELL = 100.f;
     
     if (self.blueToothManager.peripheralArray.count > 0) {
         CBPeripheral *periheral = self.blueToothManager.peripheralArray[indexPath.row];
-        cell.deviceListLabel.text = periheral.name;
+        cell.deviceListLabel.text = self.blueToothManager.peripheralNameDict[periheral];
         cell.deviceImage.image = [UIImage imageNamed:@"img_selectDeviceRM18_Cell"];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"img_deviceInfo_arrow"]];
     }

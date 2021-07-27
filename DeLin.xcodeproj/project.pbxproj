@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1833BABB266A05CA00DE3C51 /* BlueToothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BABA266A05CA00DE3C51 /* BlueToothManager.m */; };
 		1833BAD6266A204500DE3C51 /* NetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BAD2266A204400DE3C51 /* NetWorkManager.m */; };
+		1877CD7A26AFA2CD0081E1D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1877CD7926AFA2CD0081E1D2 /* Assets.xcassets */; };
 		36085886238686B50094501B /* WorkTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36085885238686B50094501B /* WorkTimeViewController.m */; };
 		36085889238686E50094501B /* WorkAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36085888238686E50094501B /* WorkAreaViewController.m */; };
 		360A754C24D984BC00C4F501 /* img_back_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 360A754B24D984BC00C4F501 /* img_back_black.png */; };
@@ -101,7 +102,6 @@
 		369C65F8235EE42F008D6230 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C65F7235EE42F008D6230 /* AppDelegate.m */; };
 		369C65FB235EE42F008D6230 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C65FA235EE42F008D6230 /* ViewController.m */; };
 		369C65FE235EE42F008D6230 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 369C65FC235EE42F008D6230 /* Main.storyboard */; };
-		369C6600235EE431008D6230 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 369C65FF235EE431008D6230 /* Assets.xcassets */; };
 		369C6603235EE431008D6230 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 369C6601235EE431008D6230 /* LaunchScreen.storyboard */; };
 		369C6606235EE431008D6230 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C6605235EE431008D6230 /* main.m */; };
 		369C6610235EE431008D6230 /* DeLinTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 369C660F235EE431008D6230 /* DeLinTests.m */; };
@@ -177,7 +177,6 @@
 		36F1ED1A238920B600E1C7A8 /* userName_icon_imag@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F1ED17238920B500E1C7A8 /* userName_icon_imag@3x.png */; };
 		36F1ED1B238920B600E1C7A8 /* userName_icon_imag@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F1ED18238920B500E1C7A8 /* userName_icon_imag@2x.png */; };
 		36F1ED1C238920B600E1C7A8 /* userName_icon_imag.png in Resources */ = {isa = PBXBuildFile; fileRef = 36F1ED19238920B600E1C7A8 /* userName_icon_imag.png */; };
-		896FD80E889048BD4E4DCA1D /* libPods-DeLin.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 884F754EB758212CC878A786 /* libPods-DeLin.a */; };
 		BB88DB71242DFED9000421F7 /* BatteryIconCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = BB88DB70242DFED9000421F7 /* BatteryIconCircleView.m */; };
 		BBA89C762418B20B00007945 /* LoginPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = BBA89C752418B20B00007945 /* LoginPasswordController.m */; };
 		BBA89C782418DCFF00007945 /* img_main_pin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BBA89C772418DCFF00007945 /* img_main_pin@2x.png */; };
@@ -246,6 +245,7 @@
 		1833BABA266A05CA00DE3C51 /* BlueToothManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlueToothManager.m; sourceTree = "<group>"; };
 		1833BAD2266A204400DE3C51 /* NetWorkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetWorkManager.m; sourceTree = "<group>"; };
 		1833BAD4266A204400DE3C51 /* NetWorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkManager.h; sourceTree = "<group>"; };
+		1877CD7926AFA2CD0081E1D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		187E7EFB25403B1400E85FED /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		36085884238686B50094501B /* WorkTimeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkTimeViewController.h; sourceTree = "<group>"; };
 		36085885238686B50094501B /* WorkTimeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkTimeViewController.m; sourceTree = "<group>"; };
@@ -398,7 +398,6 @@
 		369C65F9235EE42F008D6230 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		369C65FA235EE42F008D6230 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		369C65FD235EE42F008D6230 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		369C65FF235EE431008D6230 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		369C6602235EE431008D6230 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		369C6604235EE431008D6230 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		369C6605235EE431008D6230 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -542,7 +541,6 @@
 				3663F29F235EFA7C00B06F88 /* libssl.a in Frameworks */,
 				3663F2A0235EFA7C00B06F88 /* libEsptouch_v0.3.5.3.a in Frameworks */,
 				3663F292235EF9F000B06F88 /* ExternalAccessory.framework in Frameworks */,
-				896FD80E889048BD4E4DCA1D /* libPods-DeLin.a in Frameworks */,
 				3663F290235EF9E800B06F88 /* NetworkExtension.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -919,7 +917,7 @@
 				369C65F9235EE42F008D6230 /* ViewController.h */,
 				369C65FA235EE42F008D6230 /* ViewController.m */,
 				369C65FC235EE42F008D6230 /* Main.storyboard */,
-				369C65FF235EE431008D6230 /* Assets.xcassets */,
+				1877CD7926AFA2CD0081E1D2 /* Assets.xcassets */,
 				BBE902C12459654600092902 /* delin_icon */,
 				369C6601235EE431008D6230 /* LaunchScreen.storyboard */,
 				36A0D40324C69E9A00640642 /* Localizable.strings */,
@@ -1250,6 +1248,7 @@
 				36F1ED1223891FD300E1C7A8 /* logout_icon_imag@3x.png in Resources */,
 				36E594342398EB9A00DE4F04 /* img_choose.png in Resources */,
 				3679655A239F826100DD7B4A /* img_selectDevice_Cell@2x.png in Resources */,
+				1877CD7A26AFA2CD0081E1D2 /* Assets.xcassets in Resources */,
 				36866E452384F10F0022F265 /* userInfo_Btn.png in Resources */,
 				36E59473239BA77300DE4F04 /* img_person_Btn.png in Resources */,
 				36866E422384F10F0022F265 /* area_img@3x.png in Resources */,
@@ -1289,7 +1288,6 @@
 				36F1ED0A23891FD300E1C7A8 /* logout_icon_imag@2x.png in Resources */,
 				36E594022397896700DE4F04 /* img_logo@3x.png in Resources */,
 				BBE902D824599A1100092902 /* iphone40pt@2x.png in Resources */,
-				369C6600235EE431008D6230 /* Assets.xcassets in Resources */,
 				BBE902E324599A1100092902 /* iphone29pt@3x.png in Resources */,
 				36866E402384F10F0022F265 /* setWorkTime_img@3x.png in Resources */,
 				36796567239F917A00DD7B4A /* img_netWork_hometip@3x.png in Resources */,
@@ -1681,7 +1679,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeLin/DeLin.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A32Z223P9T;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1700,8 +1698,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/StaticLibrary",
 				);
-				MARKETING_VERSION = 1.2.5;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DeLin.Mower;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DeLin.MowerBlue;
 				PRODUCT_NAME = "ROBOT 2 MOW";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1715,7 +1713,7 @@
 				CODE_SIGN_ENTITLEMENTS = DeLin/DeLin.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = A32Z223P9T;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1734,8 +1732,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/StaticLibrary",
 				);
-				MARKETING_VERSION = 1.2.5;
-				PRODUCT_BUNDLE_IDENTIFIER = com.DeLin.Mower;
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.DeLin.MowerBlue;
 				PRODUCT_NAME = "ROBOT 2 MOW";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

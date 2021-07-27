@@ -236,14 +236,16 @@ static int noUserInteractionHeartbeat = 0;
                     
                     NSMutableDictionary *dataDic = [[NSMutableDictionary alloc] init];
                     NSNumber *monHour = _recivedData68[8];
-                    NSNumber *tueHour = _recivedData68[13-4];
-                    NSNumber *wedHour = _recivedData68[14-4];
-                    NSNumber *monMinute = _recivedData68[19-4];
-                    NSNumber *tueMinute = _recivedData68[20-4];
-                    NSNumber *wedMinute = _recivedData68[21-4];
-                    NSNumber *monState = _recivedData68[26-4];
-                    NSNumber *tueState = _recivedData68[27-4];
-                    NSNumber *wedState = _recivedData68[28-4];
+                    NSNumber *tueHour = _recivedData68[9];
+                    NSNumber *wedHour = _recivedData68[10];
+                    NSNumber *monMinute = _recivedData68[11];
+                    NSNumber *tueMinute = _recivedData68[12];
+                    NSNumber *wedMinute = _recivedData68[13];
+                    NSNumber *monState = _recivedData68[14];
+                    NSNumber *tueState = _recivedData68[15];
+                    NSNumber *wedState = _recivedData68[16];
+                    
+                    
                     [dataDic setObject:monHour forKey:@"monHour"];
                     [dataDic setObject:tueHour forKey:@"tueHour"];
                     [dataDic setObject:wedHour forKey:@"wedHour"];
@@ -253,7 +255,7 @@ static int noUserInteractionHeartbeat = 0;
                     [dataDic setObject:monState forKey:@"monState"];
                     [dataDic setObject:tueState forKey:@"tueState"];
                     [dataDic setObject:wedState forKey:@"wedState"];
-                    
+                    NSLog(@"getWorkTimeMonToWendes - %@", dataDic);
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"recieveWorkingTimeMonToWendes" object:nil userInfo:dataDic];
                     
                 }else if (self.msg68Type == getWorkTimeThursToSun){
@@ -283,12 +285,12 @@ static int noUserInteractionHeartbeat = 0;
                     [dataDic setObject:friState forKey:@"friState"];
                     [dataDic setObject:satState forKey:@"satState"];
                     [dataDic setObject:sunState forKey:@"sunState"];
-                    
+                    NSLog(@"getWorkTimeThursToSun - %@", dataDic);
                     [[NSNotificationCenter defaultCenter] postNotificationName:@"recieveWorkingTimeThursToSun" object:nil userInfo:dataDic];
                     
                 }else if (self.msg68Type == getWorkArea){
                     
-                    NSNumber *workArea = [NSNumber numberWithInt:[_recivedData68[12] intValue] * 256 + [_recivedData68[13] intValue]];
+                    NSNumber *workArea = [NSNumber numberWithInt:[_recivedData68[8] intValue] * 256 + [_recivedData68[9] intValue]];
                     NSMutableDictionary *dataDic = [[NSMutableDictionary alloc] init];
                     [dataDic setObject:workArea forKey:@"workArea"];
                     
@@ -475,7 +477,7 @@ static int noUserInteractionHeartbeat = 0;
     unsigned char dataType;
     
     unsigned char type[LEN] = {
-        0x00,0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x09,0x0B
+        0x00,0x01,0x02,0x03,0x0A,0x05,0x06,0x07,0x09,0x0B
     };
     /*
      getMainDeviceMsg.... 0x00 获取主界面基本信息

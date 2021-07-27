@@ -350,11 +350,12 @@ static CGFloat cellHeight = 60.0;
 - (void)inquireWorktimeSetting{
 
     UInt8 controlCode = 0x01;
-    NSArray *dataMonToWendes = @[@0x00,@0x01,@0x04,@0x00];
+    NSArray *dataMonToWendes = @[@0x00,@0x01,@0x0a,@0x00];
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataMonToWendes failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
         [SVProgressHUD dismissWithDelay:1.0];
     }];
+    [NSThread sleepForTimeInterval:0.5];
     NSArray *dataThursToSun = @[@0x00,@0x01,@0x0b,@0x00];
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataThursToSun failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
@@ -510,13 +511,14 @@ static CGFloat cellHeight = 60.0;
 #pragma mark - set mower work time
 - (void)setMowerWorkTimeMonToWendes {
     UInt8 controlCode = 0x01;
-    NSArray *data = @[@0x00,@0x01,@0x04,@0x01];
+    NSArray *data = @[@0x00,@0x01,@0x0a,@0x01];
     NSMutableArray *arr = [NSMutableArray new];
     //0~7 小时 8～14 分钟 15～21
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(0, 3)]];
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(7, 3)]];
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(14, 3)]];
     NSArray *workData = [data arrayByAddingObjectsFromArray:arr];
+    NSLog(@"MonToWendes - %@", workData);
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:workData failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
         [SVProgressHUD dismissWithDelay:1.0];
@@ -532,6 +534,7 @@ static CGFloat cellHeight = 60.0;
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(10, 4)]];
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(17, 4)]];
     NSArray *workData = [data arrayByAddingObjectsFromArray:arr];
+    NSLog(@"ThursToSun - %@", workData);
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:workData failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
         [SVProgressHUD dismissWithDelay:1.0];
@@ -545,6 +548,7 @@ static CGFloat cellHeight = 60.0;
             [SVProgressHUD show];
             
             [self setMowerWorkTimeMonToWendes];
+            [NSThread sleepForTimeInterval:0.5];
             [self setMowerWorkTimeThursToSun];
             
         });

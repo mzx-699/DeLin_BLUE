@@ -33,6 +33,12 @@
     }
     return self;
 }
+- (NSMutableDictionary *)peripheralNameDict {
+    if (!_peripheralNameDict) {
+        _peripheralNameDict = [[NSMutableDictionary alloc] initWithCapacity:10];
+    }
+    return _peripheralNameDict;
+}
 - (NSMutableArray *)peripheralArray{
     if (!_peripheralArray) {
         _peripheralArray = [[NSMutableArray alloc] initWithCapacity:10];
@@ -97,12 +103,16 @@
     [self.baby setBlockOnDiscoverToPeripherals:^(CBCentralManager *central, CBPeripheral *peripheral, NSDictionary *advertisementData, NSNumber *RSSI) {
 //        NSLog(@"搜索到了设备:%@",peripheral.name);
         
-        if (![weakSelf.peripheralArray containsObject:peripheral]) {
+        if (![weakSelf.peripheralArray containsObject:peripheral]) {;
             [weakSelf.peripheralArray addObject:peripheral];
             
-//            NSData *data = advertisementData[@"kCBAdvDataManufacturerData"];
-//            NSLog(@"%@", data);
-//            NSLog(@"%@", [weakSelf convertHexStrToData:@"0cc6209000000000"]);
+            NSData *data = advertisementData[@"kCBAdvDataManufacturerData"];
+            NSString *name = advertisementData[@"kCBAdvDataLocalName"];
+            NSLog(@"%@", advertisementData);
+            NSLog(@"%@", data);
+            NSLog(@"%@", [weakSelf convertHexStrToData:@"0cdf190000000000"]);
+            NSLog(@"%@", peripheral);
+            weakSelf.peripheralNameDict[peripheral] = name;
             //0x0cc6209000000000
             if ([weakSelf.delegate respondsToSelector:@selector(reloadData)]) {
                 [weakSelf.delegate reloadData];
@@ -143,6 +153,7 @@
         NSLog(@"%@", service.characteristics);
         if([service.UUID.UUIDString isEqualToString:@"FFF0"]) {
             for (CBCharacteristic * tempChara in service.characteristics) {
+                NSLog(@"%@", tempChara);
                 if ([tempChara.UUID.UUIDString isEqualToString:@"FFF1"]) {
                     weakSelf.notifyCharacteristic = tempChara;
                     NSLog(@"self.notifyCharacteristic : %@", weakSelf.notifyCharacteristic);
@@ -170,9 +181,16 @@
 //            return YES;
 //        }
 //        return NO;
-        NSData *data = advertisementData[@"kCBAdvDataManufacturerData"];
-        //设置查找规则是名称大于0 ， the search rule is peripheral.name length > 0
-        if ([peripheralName isEqualToString:@"CH9140BLE2U"] && [data isEqualToData:[weakSelf convertHexStrToData:@"0cc6209000000000"]]) {
+//        NSData *data = advertisementData[@"kCBAdvDataManufacturerData"];
+//        NSString *name = advertisementData[@"kCBAdvDataLocalName"];
+////        //设置查找规则是名称大于0 ， the search rule is peripheral.name length > 0
+//        if ([name isEqualToString:@"RM18-600"] && [data isEqualToData:[weakSelf convertHexStrToData:@"0cdf190000000000"]]) {
+//            return YES;
+//        }
+//        if (peripheralName.length > 0) {
+//            return YES;
+//        }
+        if ([peripheralName hasPrefix:@"RM24"] || [peripheralName hasPrefix:@"RM18"]) {
             return YES;
         }
         return NO;
