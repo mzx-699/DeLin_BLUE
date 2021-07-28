@@ -14,8 +14,8 @@
             filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "249"
+            endingLineNumber = "249"
             landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
@@ -62,8 +62,8 @@
             filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "170"
-            endingLineNumber = "170"
+            startingLineNumber = "216"
+            endingLineNumber = "216"
             landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "169"
-            endingLineNumber = "169"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
             landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
+            startingLineNumber = "205"
+            endingLineNumber = "205"
             landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,8 +110,8 @@
             filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "-babyDelegate"
             landmarkType = "7">
             <Locations>
@@ -158,25 +158,9 @@
             filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
+            startingLineNumber = "98"
+            endingLineNumber = "98"
             landmarkName = "-writeWithData:andSuccessBlock:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "82DEB42E-8476-4BC7-A165-B177109D84DD"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "-babyDelegate"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -190,9 +174,89 @@
             filePath = "DeLin/OC_Category/BlueToothManager/BlueToothManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
             landmarkName = "-babyDelegate"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4F3054CD-79C4-4766-B847-4AC6D7BB24FC"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DeLin/Main/MyDevice/Setting/WorkTimeViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "554"
+            endingLineNumber = "554"
+            landmarkName = "-convertStateArrToNumber:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4DB107BC-09BC-41CE-8D33-E27E9CB10E28"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DeLin/Main/MyDevice/Setting/WorkTimeViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "524"
+            endingLineNumber = "524"
+            landmarkName = "-setMowerWorkTimeMonToWendes"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4DB107BC-09BC-41CE-8D33-E27E9CB10E28 - 10b6f9e9810f4055"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[WorkTimeViewController setMowerWorkTimeMonToWendes]"
+                  moduleName = "ROBOT 2 MOW"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Desktop/%E8%BD%A8%E7%89%A9%E7%A7%91%E6%8A%80/delin/DeLin_BLUE/DeLin/Main/MyDevice/Setting/WorkTimeViewController.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "524"
+                  endingLineNumber = "524"
+                  offsetFromSymbolStart = "1056">
+               </Location>
+               <Location
+                  uuid = "4DB107BC-09BC-41CE-8D33-E27E9CB10E28 - 13706b72d2c1bb22"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__53-[WorkTimeViewController setMowerWorkTimeMonToWendes]_block_invoke"
+                  moduleName = "ROBOT 2 MOW"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/apple/Desktop/%E8%BD%A8%E7%89%A9%E7%A7%91%E6%8A%80/delin/DeLin_BLUE/DeLin/Main/MyDevice/Setting/WorkTimeViewController.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "525"
+                  endingLineNumber = "525"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "26950F88-F11B-40B1-86D2-782421219560"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DeLin/Main/MyDevice/Setting/WorkTimeViewController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "528"
+            endingLineNumber = "528"
+            landmarkName = "-setMowerWorkTimeMonToWendes"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

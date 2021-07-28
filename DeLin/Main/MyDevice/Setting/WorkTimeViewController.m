@@ -378,9 +378,8 @@ static CGFloat cellHeight = 60.0;
     NSNumber *tueMinute = 0;
     NSNumber *wedMinute = 0;
     
-    NSNumber *monState = 0;
-    NSNumber *tueState = 0;
-    NSNumber *wedState = 0;
+    NSNumber *monToWedState = 0;
+    
     
     if (dict[@"monHour"]) {
         monHour = dict[@"monHour"];
@@ -400,15 +399,19 @@ static CGFloat cellHeight = 60.0;
     if (dict[@"wedMinute"]) {
         wedMinute = dict[@"wedMinute"];
     }
-    if (dict[@"monState"]) {
-        monState = dict[@"monState"];
+    if (dict[@"monToWedState"]) {
+        monToWedState = dict[@"monToWedState"];
     }
-    if (dict[@"tueState"]) {
-        tueState = dict[@"tueState"];
-    }
-    if (dict[@"wedState"]) {
-        wedState = dict[@"wedState"];
-    }
+    
+//    if (dict[@"monState"]) {
+//        monState = dict[@"monState"];
+//    }
+//    if (dict[@"tueState"]) {
+//        tueState = dict[@"tueState"];
+//    }
+//    if (dict[@"wedState"]) {
+//        wedState = dict[@"wedState"];
+//    }
     
     [_selectrowArray replaceObjectAtIndex:0 withObject:monHour];
     [_selectrowArray replaceObjectAtIndex:1 withObject:tueHour];
@@ -418,9 +421,7 @@ static CGFloat cellHeight = 60.0;
     [_selectrowArray replaceObjectAtIndex:8 withObject:tueMinute];
     [_selectrowArray replaceObjectAtIndex:9 withObject:wedMinute];
     
-    [_selectrowArray replaceObjectAtIndex:14 withObject:monState];
-    [_selectrowArray replaceObjectAtIndex:15 withObject:tueState];
-    [_selectrowArray replaceObjectAtIndex:16 withObject:wedState];
+    [self selectMonToWedStateWithState:monToWedState];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.workTimeTable reloadData];
@@ -445,11 +446,12 @@ static CGFloat cellHeight = 60.0;
     NSNumber *satMinute = 0;
     NSNumber *sunMinute = 0;
     
-    NSNumber *thuState = 0;
-    NSNumber *friState = 0;
-    NSNumber *satState = 0;
-    NSNumber *sunState = 0;
-
+//    NSNumber *thuState = 0;
+//    NSNumber *friState = 0;
+//    NSNumber *satState = 0;
+//    NSNumber *sunState = 0;
+    NSNumber *thuToSunState = 0;
+    
     if (dict[@"thuHour"]) {
         thuHour = dict[@"thuHour"];
     }
@@ -474,18 +476,21 @@ static CGFloat cellHeight = 60.0;
     if (dict[@"sunMinute"]) {
         sunMinute = dict[@"sunMinute"];
     }
-    if (dict[@"thuState"]) {
-        thuState = dict[@"thuState"];
+    if (dict[@"thuToSunState"]) {
+        thuToSunState = dict[@"thuToSunState"];
     }
-    if (dict[@"friState"]) {
-        friState = dict[@"friState"];
-    }
-    if (dict[@"satState"]) {
-        satState = dict[@"satState"];
-    }
-    if (dict[@"sunState"]) {
-        sunState = dict[@"sunState"];
-    }
+//    if (dict[@"thuState"]) {
+//        thuState = dict[@"thuState"];
+//    }
+//    if (dict[@"friState"]) {
+//        friState = dict[@"friState"];
+//    }
+//    if (dict[@"satState"]) {
+//        satState = dict[@"satState"];
+//    }
+//    if (dict[@"sunState"]) {
+//        sunState = dict[@"sunState"];
+//    }
     
     [_selectrowArray replaceObjectAtIndex:3 withObject:thuHour];
     [_selectrowArray replaceObjectAtIndex:4 withObject:friHour];
@@ -496,11 +501,7 @@ static CGFloat cellHeight = 60.0;
     [_selectrowArray replaceObjectAtIndex:11 withObject:friMinute];
     [_selectrowArray replaceObjectAtIndex:12 withObject:satMinute];
     [_selectrowArray replaceObjectAtIndex:13 withObject:sunMinute];
-    
-    [_selectrowArray replaceObjectAtIndex:17 withObject:thuState];
-    [_selectrowArray replaceObjectAtIndex:18 withObject:friState];
-    [_selectrowArray replaceObjectAtIndex:19 withObject:satState];
-    [_selectrowArray replaceObjectAtIndex:20 withObject:sunState];
+    [self selectThursToSunStateWithState:thuToSunState];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.workTimeTable reloadData];
@@ -516,7 +517,8 @@ static CGFloat cellHeight = 60.0;
     //0~7 小时 8～14 分钟 15～21
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(0, 3)]];
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(7, 3)]];
-    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(14, 3)]];
+//    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(14, 3)]];
+    [arr addObject:[self convertStateArrToNumber:[self.selectrowArray subarrayWithRange:NSMakeRange(14, 3)]]];
     NSArray *workData = [data arrayByAddingObjectsFromArray:arr];
     NSLog(@"MonToWendes - %@", workData);
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:workData failuer:nil andSuccessBlock:^{
@@ -524,7 +526,6 @@ static CGFloat cellHeight = 60.0;
         [SVProgressHUD dismissWithDelay:1.0];
     }];
 }
-
 - (void)setMowerWorkTimeThursToSun {
     UInt8 controlCode = 0x01;
     NSArray *data = @[@0x00,@0x01,@0x0b,@0x01];
@@ -532,13 +533,25 @@ static CGFloat cellHeight = 60.0;
     //0~6 小时 7～13 分钟 14～20
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(3, 4)]];
     [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(10, 4)]];
-    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(17, 4)]];
+//    [arr addObjectsFromArray:[self.selectrowArray subarrayWithRange:NSMakeRange(17, 4)]];
+    [arr addObject:[self convertStateArrToNumber:[self.selectrowArray subarrayWithRange:NSMakeRange(17, 4)]]];
     NSArray *workData = [data arrayByAddingObjectsFromArray:arr];
     NSLog(@"ThursToSun - %@", workData);
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:workData failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
         [SVProgressHUD dismissWithDelay:1.0];
     }];
+}
+- (NSNumber *)convertStateArrToNumber:(NSArray *)stateArr {
+    __block unsigned long result = 0;
+//    NSLog(@"%@", stateArr);
+    [stateArr enumerateObjectsUsingBlock:^(NSNumber  * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        result = result + obj.intValue * (int)pow(2, idx);
+//        NSLog(@"result ----- %zd", result);
+//        NSLog(@"obj ----- %d", obj.intValue);
+    }];
+    
+    return [NSNumber numberWithUnsignedLong:result];
 }
 - (void)setMowerTime{
     NSTimeInterval currentTimeW = [NSDate date].timeIntervalSince1970;
@@ -568,7 +581,194 @@ static CGFloat cellHeight = 60.0;
         [NetWorkManager shareNetWorkManager].timeOutFlag = 1;
     }
 }
+#pragma mark - selectState
+- (void)selectMonToWedStateWithState:(NSNumber *)state {
+    NSNumber *monState = 0;
+    NSNumber *tueState = 0;
+    NSNumber *wedState = 0;
+    switch (state.intValue) {
+        case 0:
+            monState = [NSNumber numberWithInt:0];
+            tueState = [NSNumber numberWithInt:0];
+            wedState = [NSNumber numberWithInt:0];
+            break;
+            
+        case 1:
+            monState = [NSNumber numberWithInt:1];
+            tueState = [NSNumber numberWithInt:0];
+            wedState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 2:
+            monState = [NSNumber numberWithInt:0];
+            tueState = [NSNumber numberWithInt:1];
+            wedState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 3:
+            monState = [NSNumber numberWithInt:1];
+            tueState = [NSNumber numberWithInt:1];
+            wedState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 4:
+            monState = [NSNumber numberWithInt:0];
+            tueState = [NSNumber numberWithInt:0];
+            wedState = [NSNumber numberWithInt:1];
+            break;
+         
+        case 5:
+            monState = [NSNumber numberWithInt:1];
+            tueState = [NSNumber numberWithInt:0];
+            wedState = [NSNumber numberWithInt:1];
+            break;
+            
+        case 6:
+            monState = [NSNumber numberWithInt:0];
+            tueState = [NSNumber numberWithInt:1];
+            wedState = [NSNumber numberWithInt:1];
+            break;
+         
+        case 7:
+            monState = [NSNumber numberWithInt:1];
+            tueState = [NSNumber numberWithInt:1];
+            wedState = [NSNumber numberWithInt:1];
+            break;
+         
+        default:
+            break;
+    }
+    [_selectrowArray replaceObjectAtIndex:14 withObject:monState];
+    [_selectrowArray replaceObjectAtIndex:15 withObject:tueState];
+    [_selectrowArray replaceObjectAtIndex:16 withObject:wedState];
+}
 
+- (void)selectThursToSunStateWithState:(NSNumber *)state {
+    NSNumber *thuState = 0;
+    NSNumber *friState = 0;
+    NSNumber *satState = 0;
+    NSNumber *sunState = 0;
+    switch (state.intValue) {
+        case 0:
+            thuState = [NSNumber numberWithInt:0];
+            friState = [NSNumber numberWithInt:0];
+            satState = [NSNumber numberWithInt:0];
+            sunState = [NSNumber numberWithInt:0];
+            break;
+            
+        case 1:
+            thuState = [NSNumber numberWithInt:1];
+            friState = [NSNumber numberWithInt:0];
+            satState = [NSNumber numberWithInt:0];
+            sunState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 2:
+            thuState = [NSNumber numberWithInt:0];
+            friState = [NSNumber numberWithInt:1];
+            satState = [NSNumber numberWithInt:0];
+            sunState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 3:
+            thuState = [NSNumber numberWithInt:1];
+            friState = [NSNumber numberWithInt:1];
+            satState = [NSNumber numberWithInt:0];
+            sunState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 4:
+            thuState = [NSNumber numberWithInt:0];
+            friState = [NSNumber numberWithInt:0];
+            satState = [NSNumber numberWithInt:1];
+            sunState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 5:
+            thuState = [NSNumber numberWithInt:1];
+            friState = [NSNumber numberWithInt:0];
+            satState = [NSNumber numberWithInt:1];
+            sunState = [NSNumber numberWithInt:0];
+            break;
+            
+        case 6:
+            thuState = [NSNumber numberWithInt:0];
+            friState = [NSNumber numberWithInt:1];
+            satState = [NSNumber numberWithInt:1];
+            sunState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 7:
+            thuState = [NSNumber numberWithInt:1];
+            friState = [NSNumber numberWithInt:1];
+            satState = [NSNumber numberWithInt:1];
+            sunState = [NSNumber numberWithInt:0];
+            break;
+         
+        case 8:
+            thuState = [NSNumber numberWithInt:0];
+            friState = [NSNumber numberWithInt:0];
+            satState = [NSNumber numberWithInt:0];
+            sunState = [NSNumber numberWithInt:1];
+            break;
+            
+        case 9:
+            thuState = [NSNumber numberWithInt:1];
+            friState = [NSNumber numberWithInt:0];
+            satState = [NSNumber numberWithInt:0];
+            sunState = [NSNumber numberWithInt:1];
+            break;
+            
+        case 10:
+            thuState = [NSNumber numberWithInt:0];
+            friState = [NSNumber numberWithInt:1];
+            satState = [NSNumber numberWithInt:0];
+            sunState = [NSNumber numberWithInt:1];
+            break;
+            
+        case 11:
+            thuState = [NSNumber numberWithInt:1];
+            friState = [NSNumber numberWithInt:1];
+            satState = [NSNumber numberWithInt:0];
+            sunState = [NSNumber numberWithInt:1];
+            break;
+            
+        case 12:
+            thuState = [NSNumber numberWithInt:0];
+            friState = [NSNumber numberWithInt:0];
+            satState = [NSNumber numberWithInt:1];
+            sunState = [NSNumber numberWithInt:1];
+            break;
+            
+        case 13:
+            thuState = [NSNumber numberWithInt:1];
+            friState = [NSNumber numberWithInt:0];
+            satState = [NSNumber numberWithInt:1];
+            sunState = [NSNumber numberWithInt:1];
+            break;
+            
+        case 14:
+            thuState = [NSNumber numberWithInt:0];
+            friState = [NSNumber numberWithInt:1];
+            satState = [NSNumber numberWithInt:1];
+            sunState = [NSNumber numberWithInt:1];
+            break;
+            
+        case 15:
+            thuState = [NSNumber numberWithInt:1];
+            friState = [NSNumber numberWithInt:1];
+            satState = [NSNumber numberWithInt:1];
+            sunState = [NSNumber numberWithInt:1];
+            break;
+            
+        default:
+            break;
+    }
+    [_selectrowArray replaceObjectAtIndex:17 withObject:thuState];
+    [_selectrowArray replaceObjectAtIndex:18 withObject:friState];
+    [_selectrowArray replaceObjectAtIndex:19 withObject:satState];
+    [_selectrowArray replaceObjectAtIndex:20 withObject:sunState];
+}
 //- (void)goMowerTime
 //{
 //    if (_flag == 1) {

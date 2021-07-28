@@ -8,6 +8,7 @@
 #import "BlueToothManager.h"
 #import "NetWorkManager.h"
 
+#define kFilePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"peripheral.data"]
 
 
 @interface BlueToothManager ()
@@ -17,6 +18,21 @@
 @property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
 @end
 @implementation BlueToothManager
+#pragma mark - SecureCoding
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:_peripheralNameDict forKey:@"peripheralNameDict"];
+}
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super init];
+    if (self) {
+        _peripheralNameDict = [coder decodeObjectForKey:@"peripheralNameDict"];
+    }
+    return self;
+}
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
 + (instancetype)sharedBlueToothManger {
     static id instance  = nil;
     static dispatch_once_t onceToken;
@@ -107,12 +123,42 @@
             [weakSelf.peripheralArray addObject:peripheral];
             
             NSData *data = advertisementData[@"kCBAdvDataManufacturerData"];
-            NSString *name = advertisementData[@"kCBAdvDataLocalName"];
+//            NSString *name = advertisementData[@"kCBAdvDataLocalName"];
             NSLog(@"%@", advertisementData);
             NSLog(@"%@", data);
             NSLog(@"%@", [weakSelf convertHexStrToData:@"0cdf190000000000"]);
             NSLog(@"%@", peripheral);
-            weakSelf.peripheralNameDict[peripheral] = name;
+            if (![[NSFileManager defaultManager] fileExistsAtPath:kFilePath]) {
+                [[NSFileManager defaultManager] createFileAtPath:kFilePath contents:nil attributes:nil];
+            }
+            NSLog(@"%@", kFilePath);
+            NSError *error;
+            //涉及到的类
+            NSSet *set = [NSSet setWithObjects:[NSMutableDictionary class], [NSUUID class], nil];
+            if (@available(iOS 11.0, *)) {
+                weakSelf.peripheralNameDict = [NSKeyedUnarchiver unarchivedObjectOfClasses:set fromData:[NSData dataWithContentsOfFile:kFilePath] error:&error];
+            } else {
+                // unarchivedObjectOfClasses:fromData:error:
+                weakSelf.peripheralNameDict = [NSKeyedUnarchiver unarchiveObjectWithFile:kFilePath];
+            }
+            NSLog(@"%@", weakSelf.peripheralNameDict);
+            if(error)
+            {
+                NSLog(@"%@", error);
+            }
+
+            if(weakSelf.peripheralNameDict[peripheral.identifier] == nil) {
+                weakSelf.peripheralNameDict[peripheral.identifier] = peripheral.name;
+                if (@available(iOS 11.0, *)) {
+                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:weakSelf.peripheralNameDict requiringSecureCoding:NO error:nil];
+
+                    [data writeToFile:kFilePath atomically:YES];
+                    
+                } else {
+                    [NSKeyedArchiver archiveRootObject:weakSelf.peripheralNameDict toFile:kFilePath];
+                }
+            }
+            NSLog(@"%@", weakSelf.peripheralNameDict);
             //0x0cc6209000000000
             if ([weakSelf.delegate respondsToSelector:@selector(reloadData)]) {
                 [weakSelf.delegate reloadData];
@@ -191,6 +237,9 @@
 //            return YES;
 //        }
         if ([peripheralName hasPrefix:@"RM24"] || [peripheralName hasPrefix:@"RM18"]) {
+            return YES;
+        }
+        if (peripheralName.length >0) {
             return YES;
         }
         return NO;

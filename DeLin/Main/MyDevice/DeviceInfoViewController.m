@@ -16,6 +16,9 @@
 #import "BlueToothManager.h"
 #import "WorkTimeViewController.h"
 #import "MainViewController.h"
+
+#define kFilePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"peripheral.data"]
+
 NSString *const CellIdentifier_DeviceList = @"CellID_DeviceList";
 static float HEIGHT_CELL = 100.f;
 
@@ -210,8 +213,8 @@ static float HEIGHT_CELL = 100.f;
     }
     
     if (self.blueToothManager.peripheralArray.count > 0) {
-        CBPeripheral *periheral = self.blueToothManager.peripheralArray[indexPath.row];
-        cell.deviceListLabel.text = self.blueToothManager.peripheralNameDict[periheral];
+        CBPeripheral *peripheral = self.blueToothManager.peripheralArray[indexPath.row];
+        cell.deviceListLabel.text = self.blueToothManager.peripheralNameDict[peripheral.identifier];
         cell.deviceImage.image = [UIImage imageNamed:@"img_selectDeviceRM18_Cell"];
         cell.accessoryView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"img_deviceInfo_arrow"]];
     }
@@ -220,12 +223,47 @@ static float HEIGHT_CELL = 100.f;
 //        cell.deviceListLabel.text = LocalString(@"Robot_2_Mow");
 //    }
     
-    UILongPressGestureRecognizer *longPressGesture =[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(deviceCellLongPress:)];
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(deviceCellLongPress:)];
 
     longPressGesture.minimumPressDuration=1.f;//设置长按 时间
-    [self.deviceTableView addGestureRecognizer:longPressGesture];
-    
+    [cell addGestureRecognizer:longPressGesture];
+
     return cell;
+}
+- (void)deviceCellLongPress:(UILongPressGestureRecognizer *)sender {
+    if (sender.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"deviceCellLongPress");
+        CGPoint ponit=[sender locationInView:self.deviceTableView];
+        NSIndexPath* path=[self.deviceTableView indexPathForRowAtPoint:ponit];
+        NSLog(@"row:%ld",(long)path.row);
+        DeviceListCell *cell = [self.deviceTableView cellForRowAtIndexPath:path];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Please input new name" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *done = [UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            CBPeripheral *peripheral = self.blueToothManager.peripheralArray[path.row];
+            self.blueToothManager.peripheralNameDict[peripheral.identifier] = alertController.textFields[0].text;
+//            NSString *name = alertController.textFields[0].text;
+            NSLog(@"name ----- %@", alertController.textFields[0].text);
+            if (@available(iOS 11.0, *)) {
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.blueToothManager.peripheralNameDict requiringSecureCoding:NO error:nil];
+
+                [data writeToFile:kFilePath atomically:YES];
+                
+            } else {
+                [NSKeyedArchiver archiveRootObject:self.blueToothManager.peripheralNameDict toFile:kFilePath];
+            }
+            
+            [self.deviceTableView reloadData];
+        }];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+                    textField.placeholder = @"New name";
+                    textField.text = cell.deviceListLabel.text;
+        }];
+        [alertController addAction:done];
+        [alertController addAction:cancel];
+        [self presentViewController:alertController animated:YES completion:nil];
+//        currRow = path.row;
+    }
 }
 //左滑删除 设备绑定
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -263,9 +301,9 @@ static float HEIGHT_CELL = 100.f;
 //    return @[deleteAction];
 //}
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    editingStyle = UITableViewCellEditingStyleDelete;
-}
+//- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    editingStyle = UITableViewCellEditingStyleDelete;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.blueToothManager connectBLE:self.blueToothManager.peripheralArray[indexPath.row]];

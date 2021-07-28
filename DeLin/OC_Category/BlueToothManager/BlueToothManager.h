@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reloadData;
 @end
 
-@interface BlueToothManager : NSObject
+@interface BlueToothManager : NSObject <NSSecureCoding>
 @property (nonatomic, strong) CBPeripheral *connectPeripheral;
 @property (nonatomic, strong) NSMutableArray *peripheralArray;
 @property (nonatomic, strong) NSMutableDictionary *peripheralNameDict;
