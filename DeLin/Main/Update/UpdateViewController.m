@@ -32,9 +32,12 @@
     [NetWorkManager shareNetWorkManager].updateFrameCount = 0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendFirstUpdateFrame) name:@"sendFirstUpdateFrame" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendOtherUpdateFrame) name:@"sendOtherUpdateFrame" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendEndUpdateFrame) name:@"sendEndUpdateFrame" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendUpdateEndFrame) name:@"sendUpdateEndFrame" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSuccess) name:@"updateSuccess" object:nil];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self mainBtnClick];
+    });
 }
 
 #pragma mark - 测试更新
@@ -98,7 +101,7 @@
     [mainBtn setTitleColor:[UIColor blueColor] forState:UIControlStateHighlighted];
     [mainBtn addTarget:self action:@selector(mainBtnClick) forControlEvents:UIControlEventTouchUpInside];
     mainBtn.frame = CGRectMake(100, 500, 100, 100);
-    [self.view addSubview:mainBtn];
+//    [self.view addSubview:mainBtn];
 }
 - (UIButton *)cancelButton{
     if (!_cancelButton) {
@@ -121,7 +124,7 @@
 - (UILabel *)processLabel{
     if (!_processLabel) {
         _processLabel = [UILabel new];
-        _processLabel.font = [UIFont systemFontOfSize:50];
+        _processLabel.font = [UIFont systemFontOfSize:40];
         _processLabel.textColor = [UIColor whiteColor];
         _processLabel.textAlignment = NSTextAlignmentCenter;
     }
@@ -187,17 +190,16 @@
     //版本号
     [dataArr addObjectsFromArray:@[@0x00, @0x92]];
     
-    NSArray *fileSizeArr = [self getFileHexString:self.updateFileName];
-    if (fileSizeArr.count == 1) {
-        unsigned long fileSizeHex = strtoul([fileSizeArr[0] UTF8String],0,16);
-        [dataArr addObject:[NSNumber numberWithUnsignedInteger:0]];
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHex]];
-    } else if (fileSizeArr.count == 2) {
-        unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
-        unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexOne]];
-    }
+    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:self.updateFileName]];
+    unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
+    unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
+    unsigned long fileSizeHexThree = strtoul([fileSizeArr[2] UTF8String],0,16);
+    unsigned long fileSizeHexFour = strtoul([fileSizeArr[3] UTF8String],0,16);
+    
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexOne]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexThree]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexFour]];
     
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataArr failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
@@ -225,17 +227,16 @@
     self.updateModel = @0x13;
     [dataArr addObjectsFromArray:@[@0x00, @0x92]];
     
-    NSArray *fileSizeArr = [self getFileHexString:self.updateFileName];
-    if (fileSizeArr.count == 1) {
-        unsigned long fileSizeHex = strtoul([fileSizeArr[0] UTF8String],0,16);
-        [dataArr addObject:[NSNumber numberWithUnsignedInteger:0]];
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHex]];
-    } else if (fileSizeArr.count == 2) {
-        unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
-        unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexOne]];
-    }
+    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:self.updateFileName]];
+    unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
+    unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
+    unsigned long fileSizeHexThree = strtoul([fileSizeArr[2] UTF8String],0,16);
+    unsigned long fileSizeHexFour = strtoul([fileSizeArr[3] UTF8String],0,16);
+    
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexOne]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexThree]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexFour]];
     
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataArr failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
@@ -259,17 +260,16 @@
     self.updateModel = @0x12;
     [dataArr addObjectsFromArray:@[@0x11, @0x12]];
     
-    NSArray *fileSizeArr = [self getFileHexString:self.updateFileName];
-    if (fileSizeArr.count == 1) {
-        unsigned long fileSizeHex = strtoul([fileSizeArr[0] UTF8String],0,16);
-        [dataArr addObject:[NSNumber numberWithUnsignedInteger:0]];
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHex]];
-    } else if (fileSizeArr.count == 2) {
-        unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
-        unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexOne]];
-    }
+    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:self.updateFileName]];
+    unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
+    unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
+    unsigned long fileSizeHexThree = strtoul([fileSizeArr[2] UTF8String],0,16);
+    unsigned long fileSizeHexFour = strtoul([fileSizeArr[3] UTF8String],0,16);
+    
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexOne]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexThree]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexFour]];
     
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataArr failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
@@ -352,20 +352,43 @@
     self.processLabel.text = [NSString stringWithFormat:@"%.2f %%", ((CGFloat)([NetWorkManager shareNetWorkManager].updateFrameCount + 1) / self.totalFrameCount) * 100];
     
 }
-- (NSArray *) getFileHexString:(NSString *)name
+- (NSArray *) getFileHexArrWithHexString:(NSString *)fileSizeStr {
+    int count = (int)(16 - fileSizeStr.length) * 0.5;
+    for (int i = 0; i < count; i++) {
+        fileSizeStr = [NSString stringWithFormat:@"0\n%@", fileSizeStr];
+    }
+    NSMutableString *mFileSizeStr = [NSMutableString stringWithString:fileSizeStr];
+    __block NSString *hex = @"";
+    __block NSMutableArray *mFileSizeHexArr = [NSMutableArray arrayWithCapacity:4];
+    __block int hexI = 0;
+    [mFileSizeStr enumerateLinesUsingBlock:^(NSString * _Nonnull line, BOOL * _Nonnull stop) {
+        hex = [hex stringByAppendingString:line];
+        if (hex.length == 2) {
+            mFileSizeHexArr[hexI] = hex;
+            hex = @"";
+            hexI = hexI + 1;
+        }
+    }];
+    return mFileSizeHexArr.copy;
+}
+- (NSString *) getFileHexStringWithFileName:(NSString *)name
 {
     NSArray *dataArr = [self convertBinFileToNSArrayWithFileName:name];
     //    NSLog(@"%@", [self getHexByDecimal:dataArr.count]);
     return [self getHexByDecimal:dataArr.count];
+//    return [self getHexByDecimal:98];
 }
 
-- (NSArray *)getHexByDecimal:(NSInteger)decimal {
+/**
+ 十进制转换十六进制
+  
+ @param decimal 十进制数
+ @return 十六进制数
+ */
+- (NSString *)getHexByDecimal:(NSInteger)decimal {
     
     NSString *hex =@"";
-    NSString *start = @"0x";
     NSString *letter;
-    NSString *hexOne = @"";
-    NSString *hexTwo = @"";
     NSInteger number;
     for (int i = 0; i<9; i++) {
         
@@ -374,44 +397,32 @@
         switch (number) {
                 
             case 10:
-                letter =@"A"; break;
+                letter =@"A\n"; break;
             case 11:
-                letter =@"B"; break;
+                letter =@"B\n"; break;
             case 12:
-                letter =@"C"; break;
+                letter =@"C\n"; break;
             case 13:
-                letter =@"D"; break;
+                letter =@"D\n"; break;
             case 14:
-                letter =@"E"; break;
+                letter =@"E\n"; break;
             case 15:
-                letter =@"F"; break;
+                letter =@"F\n"; break;
             default:
-                letter = [NSString stringWithFormat:@"%ld", number];
+                letter = [NSString stringWithFormat:@"%ld\n", number];
         }
         hex = [letter stringByAppendingString:hex];
-        if (hex.length == 2 && [hexOne isEqualToString:@""]) {
-            hexOne = hex;
-            hex = @"";
-        }
-        
         if (decimal == 0) {
-            hexTwo = hex;
+            
             break;
         }
     }
-    if ([hexTwo isEqual: @""]) {
-        hexOne = [start stringByAppendingString:hexOne];
-        return @[hexOne];
-    } else {
-        hexOne = [start stringByAppendingString:hexOne];
-        hexTwo = [start stringByAppendingString:hexTwo];
-        return @[hexOne, hexTwo];
-    }
-    
-    
+    return hex;
 }
 #pragma mark - 更新结束帧
 - (void)sendUpdateEndFrame {
+    [NetWorkManager shareNetWorkManager].updateFlag = 0;
+    
     UInt8 controlCode = 0x01;
     NSArray *arr = @[@0x00,@0x01,@0x71,@0x01];
     
@@ -422,17 +433,16 @@
     [dataArr addObjectsFromArray:@[@0x11, @0x12]];
     
     
-    NSArray *fileSizeArr = [self getFileHexString:self.updateFileName];
-    if (fileSizeArr.count == 1) {
-        unsigned long fileSizeHex = strtoul([fileSizeArr[0] UTF8String],0,16);
-        [dataArr addObject:[NSNumber numberWithUnsignedInteger:0]];
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHex]];
-    } else if (fileSizeArr.count == 2) {
-        unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
-        unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
-        [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexOne]];
-    }
+    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:self.updateFileName]];
+    unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
+    unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
+    unsigned long fileSizeHexThree = strtoul([fileSizeArr[2] UTF8String],0,16);
+    unsigned long fileSizeHexFour = strtoul([fileSizeArr[3] UTF8String],0,16);
+    
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexOne]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexThree]];
+    [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexFour]];
     
     NSLog(@"%@", dataArr);
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataArr failuer:nil andSuccessBlock:^{
@@ -443,14 +453,14 @@
 - (void)updateSuccess {
     NSLog(@"-----updateSuccess-------");
     [SVProgressHUD showSuccessWithStatus:@"更新成功"];
+    
     UpdateSuccessViewController *vc = [UpdateSuccessViewController new];
-    [self.navigationController presentViewController:vc animated:YES completion:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"sendFirstUpdateFrame" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"sendOtherUpdateFrame" object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"sendEndUpdateFrame" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"sendUpdateEndFrame" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"updateSuccess" object:nil];
     

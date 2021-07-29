@@ -76,7 +76,8 @@
 }
 - (void)successButtonClick {
     NSLog(@"successButtonClick");
-    MainViewController *vc = [MainViewController new];
+    NSArray *vcs = self.navigationController.viewControllers;
+    UIViewController *vc = vcs[vcs.count - 3];
     [self.navigationController popToViewController:vc animated:YES];
 }
 @end

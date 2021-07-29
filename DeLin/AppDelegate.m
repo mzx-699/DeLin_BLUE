@@ -14,7 +14,7 @@
 #import "WorkTimeViewController.h"
 #import "InputPINViewController.h"
 #import "MainViewController.h"
-#import "UpdateSuccessViewController.h"
+#import "UpdateViewController.h"
 @interface AppDelegate ()
 
 
@@ -37,7 +37,7 @@
     
     DeviceInfoViewController *deviceInfoVC = [[DeviceInfoViewController alloc] init];
 //    MainViewController *vc = [MainViewController new];
-//    UpdateSuccessViewController *vc = [UpdateSuccessViewController new];
+//    UpdateViewController *vc = [UpdateViewController new];
     //判断是否是第一次启动
     //好像如果读取bool值没有该key的时候默认为NO，没有nil的情况了
     self.navController = [[UINavigationController alloc] initWithRootViewController:deviceInfoVC];

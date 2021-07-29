@@ -69,9 +69,9 @@
         csTemp += [data[i] unsignedCharValue];
     }
     //机智云端 不识别0xff
-    if (csTemp == 0xff) {
-        csTemp = 0x00;
-    }
+//    if (csTemp == 0xff) {
+//        csTemp = 0x00;
+//    }
     return csTemp;
 }
 

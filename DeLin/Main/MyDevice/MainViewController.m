@@ -15,6 +15,7 @@
 #import "SetPinCodeViewController.h"
 #import "BatteryIconCircleView.h"
 #import "UpdateViewController.h"
+#import "UpdateSuccessViewController.h"
 @interface MainViewController ()
 
 //@property(nonatomic,strong) MMDrawerController * drawerController;
