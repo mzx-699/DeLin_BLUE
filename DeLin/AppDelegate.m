@@ -13,6 +13,8 @@
 #import "DeviceInfoViewController.h"
 #import "WorkTimeViewController.h"
 #import "InputPINViewController.h"
+#import "MainViewController.h"
+#import "UpdateSuccessViewController.h"
 @interface AppDelegate ()
 
 
@@ -34,7 +36,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     DeviceInfoViewController *deviceInfoVC = [[DeviceInfoViewController alloc] init];
-//    WorkTimeViewController *vc = [WorkTimeViewController new];
+//    MainViewController *vc = [MainViewController new];
+//    UpdateSuccessViewController *vc = [UpdateSuccessViewController new];
     //判断是否是第一次启动
     //好像如果读取bool值没有该key的时候默认为NO，没有nil的情况了
     self.navController = [[UINavigationController alloc] initWithRootViewController:deviceInfoVC];

@@ -21,6 +21,8 @@ typedef enum{
     reSetPINCode,
     getStart,
     getWorkTimeThursToSun,
+    getSendUpdataFrame,
+    getUpdateFrameSuccess,
     otherMsgType
 }MsgType68;
 
@@ -29,6 +31,13 @@ typedef enum{
     writeReplyFrame,
     otherFrameType
 }FrameType68;
+
+typedef enum{
+    sendFirstFrame,
+    sendOtherFrame,
+    sendEndFrame,
+    noSendFrame
+}SendUpdateFrameType;
 
 ///@brief 接收到的温度帧数量和查询温度帧数量
 static int recvCount = 0;
@@ -61,7 +70,12 @@ static NSInteger tempCountVer = 1000;
 
 ///@brief 帧计数器
 @property (nonatomic, assign) UInt8 frameCount;
-
+///更新标志位
+@property (nonatomic, assign) int updateFlag;
+///更新帧数
+@property (nonatomic, assign) NSUInteger updateFrameCount;
+///更新帧类型
+@property (nonatomic, assign) SendUpdateFrameType sendUpdateFrameType;
 - (void)handle68Message:(NSArray *)data;
 
 ///@brief 单例模式

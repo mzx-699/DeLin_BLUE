@@ -237,7 +237,7 @@
             [SVProgressHUD dismiss];
         }else{
             
-            dispatch_async(dispatch_get_main_queue(), ^{
+           
                 
                 NSMutableArray *dataContent = [[NSMutableArray alloc] init];
                 [dataContent addObject:[NSNumber numberWithUnsignedInteger:[self.passwordModelTF.inputText.text characterAtIndex:0] - 48]];
@@ -267,7 +267,7 @@
                     
                 });
                 
-            });
+            
             
         }
         //更新时间

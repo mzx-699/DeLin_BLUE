@@ -11,7 +11,7 @@
 #import <netdb.h>
 
 ///@brife 可判断的数据帧类型数量
-#define LEN 10
+#define LEN 12
 
 static dispatch_once_t oneToken;
 
@@ -140,8 +140,7 @@ static int noUserInteractionHeartbeat = 0;
  */
 - (void)sendData68With:(UInt8)controlCode data:(NSArray *)data failuer:(nullable void(^)(void))failure andSuccessBlock:(writeSuccessBlock)writeSuccessBlock{
     
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        dispatch_sync(self->_queue, ^{
+    
             
             noUserInteractionHeartbeat = 0;//心跳清零
             
@@ -163,8 +162,7 @@ static int noUserInteractionHeartbeat = 0;
             [self send:data68 withTag:100 andSuccessBlock:writeSuccessBlock];//机智云发送
             
             
-        });
-    });
+
 }
 
 
@@ -180,6 +178,30 @@ static int noUserInteractionHeartbeat = 0;
     }
     if (_recivedData68)
     {
+        if(self.updateFlag == 1) {
+            self.sendUpdateFrameType = [self checkSendUpdateFrameSuccess:data];
+            switch (self.sendUpdateFrameType) {
+                case sendFirstFrame:
+                    NSLog(@"发送第二帧");
+                    self.updateFrameCount ++;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendOtherUpdateFrame" object:nil userInfo:nil];
+                    break;
+                case sendOtherFrame:
+                    NSLog(@"发送其他帧");
+                    self.updateFrameCount ++;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendOtherUpdateFrame" object:nil userInfo:nil];
+                    break;
+                case sendEndFrame:
+                    NSLog(@"更新结束帧");
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendEndUpdateFrame" object:nil userInfo:nil];
+                    break;
+                    
+                default:
+                    NSLog(@"不是固件更新帧");
+                    break;
+            }
+            
+        }
         [_recivedData68 removeAllObjects];
         [_recivedData68 addObjectsFromArray:data];
         self.msg68Type = [self checkOutMsgType:data];
@@ -428,6 +450,13 @@ static int noUserInteractionHeartbeat = 0;
                     _timeOutFlag = 0;
                     [_atimeOut setFireDate:[NSDate distantFuture]];
                     
+                } else if (self.msg68Type == getSendUpdataFrame) {
+                    self.updateFlag = 1;
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"sendFirstUpdateFrame" object:nil userInfo:nil];
+                }
+                else if (self.msg68Type == getUpdateFrameSuccess) {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"updateSuccess" object:nil userInfo:nil];
+                    self.updateFlag = 0;
                 }
                 
             }
@@ -480,7 +509,7 @@ static int noUserInteractionHeartbeat = 0;
     unsigned char dataType;
     
     unsigned char type[LEN] = {
-        0x00,0x01,0x02,0x03,0x0A,0x05,0x06,0x07,0x09,0x0B
+        0x00,0x01,0x02,0x03,0x0A,0x05,0x06,0x07,0x09,0x0B, 0x70,0x71
     };
     /*
      getMainDeviceMsg.... 0x00 获取主界面基本信息
@@ -542,6 +571,14 @@ static int noUserInteractionHeartbeat = 0;
                     returnVal = getWorkTimeThursToSun;
                     break;
                     
+                case 10:
+                    returnVal = getSendUpdataFrame;
+                    break;
+                    
+                case 11:
+                    returnVal = getUpdateFrameSuccess;
+                    break;
+                    
                 default:
                     returnVal = otherMsgType;
                     break;
@@ -583,6 +620,38 @@ static int noUserInteractionHeartbeat = 0;
     }
     return returnVal;
 }
-
+- (SendUpdateFrameType)checkSendUpdateFrameSuccess:(NSArray *)data{
+    unsigned char dataType;
+    
+    unsigned char type[3] = {
+        0x10,0x20,0x30
+    };
+    //命令标识
+    dataType = [data[1] unsignedIntegerValue];
+    //NSLog(@"%d",dataType);
+    
+    SendUpdateFrameType sendFrame = sendOtherFrame;
+    
+    for (int i = 0; i < 3; i++) {
+        if (dataType == type[i]) {
+            switch (i) {
+                case 0:
+                    sendFrame = sendOtherFrame;
+                    break;
+                case 1:
+                    sendFrame = sendOtherFrame;
+                    break;
+                case 2:
+                    sendFrame = sendEndFrame;
+                    break;
+                    
+                default:
+                    sendFrame = noSendFrame;
+                    break;
+            }
+        }
+    }
+    return sendFrame;
+}
 
 @end

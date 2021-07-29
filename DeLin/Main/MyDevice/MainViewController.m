@@ -14,7 +14,7 @@
 #import "WorkTimeViewController.h"
 #import "SetPinCodeViewController.h"
 #import "BatteryIconCircleView.h"
-
+#import "UpdateViewController.h"
 @interface MainViewController ()
 
 //@property(nonatomic,strong) MMDrawerController * drawerController;
@@ -37,6 +37,11 @@
 @property (nonatomic, strong) UIButton *areaSetBtn;//工作区域设置
 
 @property (nonatomic, strong) NSTimer *timer;
+
+@property (nonatomic, strong) UILabel *currentVersionTitleLabel;
+@property (nonatomic, strong) UILabel *currentVersionLabel;
+
+@property (nonatomic, strong) UIButton *updateButton;
 
 @end
 
@@ -63,7 +68,7 @@
     _startSetBtn = [self startSetBtn];
     _timerSetBtn = [self timerSetBtn];
     _areaSetBtn = [self areaSetBtn];
-    
+    [self setupUI];
     _timer = [self timer];
     timeT = 0.0;
     //设置打开/关闭抽屉的手势
@@ -107,7 +112,79 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getHome" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getStop" object:nil];
 }
+#pragma mark - setUpUI
+- (void)setupUI {
+    [self.view addSubview:self.currentVersionTitleLabel];
+    [self.view addSubview:self.currentVersionLabel];
+    [self.view addSubview:self.updateButton];
 
+    NSNumber *updateButtonHeight = [NSNumber numberWithFloat:self.updateButton.titleLabel.font.lineHeight];
+    [self.currentVersionTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.robotErrorLabel.mas_left);
+        make.top.equalTo(self.robotErrorLabel.mas_bottom).offset(20);
+        make.height.equalTo(@14);
+    }];
+    [self.currentVersionLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.currentVersionTitleLabel.mas_centerY);
+        make.height.equalTo(self.currentVersionTitleLabel.mas_height);
+        make.left.equalTo(self.currentVersionTitleLabel.mas_right).offset(2);
+    }];
+    [self.updateButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.timerSetBtn.mas_top).offset(-15);
+        make.height.equalTo(updateButtonHeight);
+        make.width.equalTo(@100);
+        make.left.equalTo(self.timerSetBtn.mas_left).offset(3);
+    }];
+    
+
+}
+- (UILabel *)currentVersionTitleLabel{
+    if (!_currentVersionTitleLabel) {
+        _currentVersionTitleLabel = [[UILabel alloc] init];
+        _currentVersionTitleLabel.numberOfLines = 0;
+        _currentVersionTitleLabel.text = @"Current version : ";
+        _currentVersionTitleLabel.font = [UIFont systemFontOfSize:15];
+        _currentVersionTitleLabel.textColor = [UIColor whiteColor];
+    }
+    return _currentVersionTitleLabel;
+}
+- (UILabel *)currentVersionLabel{
+    if (!_currentVersionLabel) {
+        _currentVersionLabel = [[UILabel alloc] init];
+        _currentVersionLabel.numberOfLines = 0;
+        _currentVersionLabel.text = @" U135";
+        _currentVersionLabel.font = [UIFont systemFontOfSize:15];
+        _currentVersionLabel.textColor = [UIColor whiteColor];
+    }
+    return _currentVersionLabel;
+}
+- (UIButton *)updateButton{
+    if (!_updateButton) {
+        _updateButton = [UIButton new];
+        [_updateButton setImage:[UIImage imageNamed:@"update"] forState:UIControlStateNormal];
+        [_updateButton setTitle:@"update" forState:UIControlStateNormal];
+        _updateButton.titleLabel.font = [UIFont systemFontOfSize:17];
+        _updateButton.titleLabel.textColor = [UIColor whiteColor];
+        [_updateButton addTarget:self action:@selector(updateButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        _updateButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        //上左下右
+        _updateButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 20);
+        [_updateButton sizeToFit];
+    }
+    return _updateButton;
+}
+- (void)updateButtonClick {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Jump prompt" message:[NSString stringWithFormat:@"Update to version%@", self.currentVersionLabel.text] preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *done = [UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"跳转");
+        UpdateViewController *vc = [UpdateViewController new];
+        [self.navigationController pushViewController:vc animated:NO];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:done];
+    [alertController addAction:cancel];
+    [self presentViewController:alertController animated:NO completion:nil];
+}
 #pragma mark - Lazy load
 - (void)setNavItem{
     

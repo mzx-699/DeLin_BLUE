@@ -10,6 +10,11 @@
 		1833BABB266A05CA00DE3C51 /* BlueToothManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BABA266A05CA00DE3C51 /* BlueToothManager.m */; };
 		1833BAD6266A204500DE3C51 /* NetWorkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1833BAD2266A204400DE3C51 /* NetWorkManager.m */; };
 		1877CD7A26AFA2CD0081E1D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1877CD7926AFA2CD0081E1D2 /* Assets.xcassets */; };
+		18DC2BFE26B2433600B05D7C /* UpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DC2BFD26B2433600B05D7C /* UpdateViewController.m */; };
+		18DC2C0926B2447900B05D7C /* UpdateCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DC2C0526B2447700B05D7C /* UpdateCircleView.m */; };
+		18DC2C0A26B2447900B05D7C /* UpdateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DC2C0826B2447800B05D7C /* UpdateView.m */; };
+		18DC2C0F26B2481400B05D7C /* TEST.BIN in Resources */ = {isa = PBXBuildFile; fileRef = 18DC2C0E26B2481400B05D7C /* TEST.BIN */; };
+		18DC2C1526B25CE800B05D7C /* UpdateSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DC2C1426B25CE800B05D7C /* UpdateSuccessViewController.m */; };
 		36085886238686B50094501B /* WorkTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36085885238686B50094501B /* WorkTimeViewController.m */; };
 		36085889238686E50094501B /* WorkAreaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36085888238686E50094501B /* WorkAreaViewController.m */; };
 		360A754C24D984BC00C4F501 /* img_back_black.png in Resources */ = {isa = PBXBuildFile; fileRef = 360A754B24D984BC00C4F501 /* img_back_black.png */; };
@@ -247,6 +252,15 @@
 		1833BAD4266A204400DE3C51 /* NetWorkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetWorkManager.h; sourceTree = "<group>"; };
 		1877CD7926AFA2CD0081E1D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		187E7EFB25403B1400E85FED /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		18DC2BFC26B2433600B05D7C /* UpdateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdateViewController.h; sourceTree = "<group>"; };
+		18DC2BFD26B2433600B05D7C /* UpdateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UpdateViewController.m; sourceTree = "<group>"; };
+		18DC2C0526B2447700B05D7C /* UpdateCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateCircleView.m; sourceTree = "<group>"; };
+		18DC2C0626B2447800B05D7C /* UpdateCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCircleView.h; sourceTree = "<group>"; };
+		18DC2C0726B2447800B05D7C /* UpdateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateView.h; sourceTree = "<group>"; };
+		18DC2C0826B2447800B05D7C /* UpdateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateView.m; sourceTree = "<group>"; };
+		18DC2C0E26B2481400B05D7C /* TEST.BIN */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = TEST.BIN; sourceTree = "<group>"; };
+		18DC2C1326B25CE800B05D7C /* UpdateSuccessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UpdateSuccessViewController.h; sourceTree = "<group>"; };
+		18DC2C1426B25CE800B05D7C /* UpdateSuccessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UpdateSuccessViewController.m; sourceTree = "<group>"; };
 		36085884238686B50094501B /* WorkTimeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkTimeViewController.h; sourceTree = "<group>"; };
 		36085885238686B50094501B /* WorkTimeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkTimeViewController.m; sourceTree = "<group>"; };
 		36085887238686E50094501B /* WorkAreaViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkAreaViewController.h; sourceTree = "<group>"; };
@@ -573,6 +587,21 @@
 			path = BlueToothManager;
 			sourceTree = "<group>";
 		};
+		18DC2BEC26B13CC800B05D7C /* Update */ = {
+			isa = PBXGroup;
+			children = (
+				18DC2BFC26B2433600B05D7C /* UpdateViewController.h */,
+				18DC2BFD26B2433600B05D7C /* UpdateViewController.m */,
+				18DC2C1326B25CE800B05D7C /* UpdateSuccessViewController.h */,
+				18DC2C1426B25CE800B05D7C /* UpdateSuccessViewController.m */,
+				18DC2C0626B2447800B05D7C /* UpdateCircleView.h */,
+				18DC2C0526B2447700B05D7C /* UpdateCircleView.m */,
+				18DC2C0726B2447800B05D7C /* UpdateView.h */,
+				18DC2C0826B2447800B05D7C /* UpdateView.m */,
+			);
+			path = Update;
+			sourceTree = "<group>";
+		};
 		360858832386866C0094501B /* Setting */ = {
 			isa = PBXGroup;
 			children = (
@@ -630,6 +659,7 @@
 		368AB2EF235F03CA002B6D37 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				18DC2BEC26B13CC800B05D7C /* Update */,
 				36930A00237C0618003DAFBD /* MyDevice */,
 				368AB346235F0678002B6D37 /* Base */,
 				368AB325235F0623002B6D37 /* ESP */,
@@ -917,6 +947,7 @@
 				369C65F9235EE42F008D6230 /* ViewController.h */,
 				369C65FA235EE42F008D6230 /* ViewController.m */,
 				369C65FC235EE42F008D6230 /* Main.storyboard */,
+				18DC2C0E26B2481400B05D7C /* TEST.BIN */,
 				1877CD7926AFA2CD0081E1D2 /* Assets.xcassets */,
 				BBE902C12459654600092902 /* delin_icon */,
 				369C6601235EE431008D6230 /* LaunchScreen.storyboard */,
@@ -1242,6 +1273,7 @@
 				36A0D40124C69E9A00640642 /* Localizable.strings in Resources */,
 				36F1ED0C23891FD300E1C7A8 /* manual_icon_imag@2x.png in Resources */,
 				36796558239F826100DD7B4A /* img_selectDevice_Cell.png in Resources */,
+				18DC2C0F26B2481400B05D7C /* TEST.BIN in Resources */,
 				36F1ED1A238920B600E1C7A8 /* userName_icon_imag@3x.png in Resources */,
 				BBE902D724599A1100092902 /* ipad76pt@2x.png in Resources */,
 				36E5944D239A3C7B00DE4F04 /* img_sendEmail.png in Resources */,
@@ -1423,6 +1455,7 @@
 				3653883924BFE72700858560 /* YULanguageManager.m in Sources */,
 				368AB33B235F0623002B6D37 /* NullSafe.m in Sources */,
 				36A9AEF32395FB9900EC8749 /* AAEmailTextField.m in Sources */,
+				18DC2BFE26B2433600B05D7C /* UpdateViewController.m in Sources */,
 				36796550239F7CD300DD7B4A /* SelectDeviceViewController.m in Sources */,
 				368AB338235F0623002B6D37 /* UIViewController+Common.m in Sources */,
 				36A9AEFE2396600A00EC8749 /* NewUserSuccessController.m in Sources */,
@@ -1446,6 +1479,7 @@
 				36796548239DDF3C00DD7B4A /* PersonSettingCell.m in Sources */,
 				368AB330235F0623002B6D37 /* UIColor+ColorChange.m in Sources */,
 				3679655D239F8E9800DD7B4A /* NetWorkHomeTipController.m in Sources */,
+				18DC2C0926B2447900B05D7C /* UpdateCircleView.m in Sources */,
 				369309F6237C033B003DAFBD /* BaseViewController.m in Sources */,
 				368AB33D235F0623002B6D37 /* YTFAlertController.m in Sources */,
 				368E50A12390CB4D00AFE3B3 /* RegionCell.m in Sources */,
@@ -1459,6 +1493,7 @@
 				368AB33C235F0623002B6D37 /* TouchTableView.m in Sources */,
 				3653883A24BFE72700858560 /* NSBundle+YULanguage.m in Sources */,
 				36930A15237C09D6003DAFBD /* WorktimeCell.m in Sources */,
+				18DC2C0A26B2447900B05D7C /* UpdateView.m in Sources */,
 				36965D24238B733200D0435A /* SetLanguageViewController.m in Sources */,
 				36126D1723AA1166007B39DB /* FinishNetWorkSuccessController.m in Sources */,
 				369C65F8235EE42F008D6230 /* AppDelegate.m in Sources */,
@@ -1468,6 +1503,7 @@
 				3679654D239E6F6300DD7B4A /* AAWiFiPasswordTF.m in Sources */,
 				368E5077238E1D0300AFE3B3 /* WelcomeViewController.m in Sources */,
 				36930A0F237C0914003DAFBD /* UIViewController+BarButton.m in Sources */,
+				18DC2C1526B25CE800B05D7C /* UpdateSuccessViewController.m in Sources */,
 				36E59451239B7F8900DE4F04 /* DeviceInfoViewController.m in Sources */,
 				3679656F239F927C00DD7B4A /* NetWorkDeviceTipController.m in Sources */,
 				36A0D40B24C991FF00640642 /* UserPrivacyAgreementController.m in Sources */,
