@@ -10,7 +10,7 @@
 #import "MainViewController.h"
 #import "AAPInPasswordTF.h"
 
-@interface InputPINViewController () <UITextFieldDelegate>
+@interface InputPINViewController () <UITextFieldDelegate, BlueToothManagerDelegate>
 
 @property (nonatomic, strong) UIView *labelBgView;
 @property (nonatomic, strong) UIButton *continueBtn;
@@ -23,7 +23,11 @@
 {
     NSTimeInterval time;
 }
-
+#pragma mark - BlueToothManagerDelegate
+- (void)updatePinGoContinue {
+    self.continueBtn.enabled = YES;
+}
+#pragma mark - 视图
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -31,7 +35,7 @@
     _labelBgView = [self labelBgView];
     _agreementBtn = [self agreementBtn];
     _continueBtn = [self continueBtn];
-    
+    [BlueToothManager sharedBlueToothManger].delegate = self;
     [self setNavItem];
     [self setUItextField];
     
@@ -131,9 +135,11 @@
         [_continueBtn setTitle:LocalString(@"Continue to") forState:UIControlStateNormal];
         [_continueBtn.titleLabel setFont:[UIFont systemFontOfSize:18.f]];
         [_continueBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
         [_continueBtn setBackgroundColor:[UIColor colorWithRed:255/255.0 green:153/255.0 blue:0/255.0 alpha:1.f]];
+        [_continueBtn setTitleColor:[UIColor blackColor] forState:UIControlStateDisabled];
         [_continueBtn addTarget:self action:@selector(goContinue) forControlEvents:UIControlEventTouchUpInside];
-        _continueBtn.enabled = YES;
+        _continueBtn.enabled = NO;
         [self.view addSubview:_continueBtn];
         [_continueBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(ScreenWidth, yAutoFit(55)));

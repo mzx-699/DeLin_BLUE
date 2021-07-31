@@ -11,7 +11,7 @@
 #import <netdb.h>
 
 ///@brife 可判断的数据帧类型数量
-#define LEN 12
+#define LEN 13
 
 static dispatch_once_t oneToken;
 
@@ -322,6 +322,19 @@ static int noUserInteractionHeartbeat = 0;
                         
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"recieveWorkArea" object:nil userInfo:dataDic];
                         
+                    } else if (self.msg68Type == getCurrentVersion) {
+                        NSMutableDictionary *dataDic = [[NSMutableDictionary alloc] init];
+                        NSNumber *updateObject = _recivedData68[8];
+                        NSNumber *updateModel = _recivedData68[9];
+                        NSNumber *currentVersionOne = _recivedData68[10];
+                        NSNumber *currentVersionTwo = _recivedData68[11];
+
+                        [dataDic setObject:updateObject forKey:@"updateObject"];
+                        [dataDic setObject:updateModel forKey:@"updateModel"];
+                        [dataDic setObject:currentVersionOne forKey:@"currentVersionOne"];
+                        [dataDic setObject:currentVersionTwo forKey:@"currentVersionTwo"];
+                        NSLog(@"%@", dataDic);
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"setCurrentVersion:" object:nil userInfo:dataDic];
                     }
                     
                 }
@@ -460,6 +473,7 @@ static int noUserInteractionHeartbeat = 0;
                         self.updateFlag = 0;
                     }
                     
+                    
                 }
                     break;
                     
@@ -510,7 +524,7 @@ static int noUserInteractionHeartbeat = 0;
     unsigned char dataType;
     
     unsigned char type[LEN] = {
-        0x00,0x01,0x02,0x03,0x0A,0x05,0x06,0x07,0x09,0x0B, 0x70,0x71
+        0x00,0x01,0x02,0x03,0x0A,0x05,0x06,0x07,0x09,0x0B, 0x70,0x71, 0x72
     };
     /*
      getMainDeviceMsg.... 0x00 获取主界面基本信息
@@ -578,6 +592,10 @@ static int noUserInteractionHeartbeat = 0;
                     
                 case 11:
                     returnVal = getUpdateFrameSuccess;
+                    break;
+                    
+                case 12:
+                    returnVal = getCurrentVersion;
                     break;
                     
                 default:

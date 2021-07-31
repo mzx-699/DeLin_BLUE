@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define updateFileName @"01130093"
+
 NS_ASSUME_NONNULL_BEGIN
 
 typedef enum{
@@ -23,6 +25,7 @@ typedef enum{
     getWorkTimeThursToSun,
     getSendUpdataFrame,
     getUpdateFrameSuccess,
+    getCurrentVersion,
     otherMsgType
 }MsgType68;
 

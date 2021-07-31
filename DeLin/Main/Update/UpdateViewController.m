@@ -11,6 +11,8 @@
 #import "NetWorkManager.h"
 #import "UpdateView.h"
 #import "UpdateSuccessViewController.h"
+
+
 @interface UpdateViewController ()
 
 @property (nonatomic, assign) NSUInteger totalFrameCount;
@@ -18,8 +20,9 @@
 @property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSNumber *updateObject;
 @property (nonatomic, strong) NSNumber *updateModel;
+@property (nonatomic, strong) NSNumber *updateVersionOne;
+@property (nonatomic, strong) NSNumber *updateVersionTwo;
 @property (nonatomic, strong) NSArray *updateFileArr;
-@property (nonatomic, strong) NSString *updateFileName;
 @property (nonatomic, strong) UIButton *cancelButton;
 @end
 
@@ -28,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Update";
+    [self updateFileNameAnalysisWithupdateFileName:updateFileName];
     [self setupUI];
     [NetWorkManager shareNetWorkManager].updateFrameCount = 0;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendFirstUpdateFrame) name:@"sendFirstUpdateFrame" object:nil];
@@ -39,7 +43,24 @@
         [self mainBtnClick];
     });
 }
-
+#pragma mark - 解析更新文件名
+- (void)updateFileNameAnalysisWithupdateFileName:(NSString *)name {
+    NSMutableString *fileName = [NSMutableString stringWithString:name];
+    NSString *updateObjectStr = [fileName substringWithRange:NSMakeRange(0, 2)];
+    NSString * updateModelStr = [fileName substringWithRange:NSMakeRange(2, 2)];
+    NSString * updateVersionOneStr = [fileName substringWithRange:NSMakeRange(4, 2)];
+    NSString * updateVersionTwoStr = [fileName substringWithRange:NSMakeRange(6, 2)];
+    
+    unsigned long updateObjectHex = strtoul([updateObjectStr UTF8String],0,16);
+    unsigned long updateModelHex = strtoul([updateModelStr UTF8String],0,16);
+    unsigned long updateVersionOneHex = strtoul([updateVersionOneStr UTF8String],0,16);
+    unsigned long updateVersionTwoHex = strtoul([updateVersionTwoStr UTF8String],0,16);
+    
+    self.updateObject = [NSNumber numberWithUnsignedLong:updateObjectHex];
+    self.updateModel = [NSNumber numberWithUnsignedLong:updateModelHex];
+    self.updateVersionOne = [NSNumber numberWithUnsignedLong:updateVersionOneHex];
+    self.updateVersionTwo = [NSNumber numberWithUnsignedLong:updateVersionTwoHex];
+}
 #pragma mark - 测试更新
 //- (void)test {
 //    if ([NetWorkManager shareNetWorkManager].updateFrameCount == 0) {
@@ -174,23 +195,20 @@
 #pragma mark - 起始帧
 - (void)mainBtnClick {
     NSLog(@"mainBtnClick");
-    self.updateFileName = @"TEST.BIN";
-    self.updateFileArr = [self convertBinFileToNSArrayWithFileName:self.updateFileName];
+    self.updateFileArr = [self convertBinFileToNSArrayWithFileName:[NSString stringWithFormat:@"%@.BIN", updateFileName]];
     
     UInt8 controlCode = 0x01;
     NSArray *arr = @[@0x00,@0x01,@0x70,@0x01];
     
     NSMutableArray *dataArr = [NSMutableArray arrayWithArray:arr];
     //更新对象
-    [dataArr addObject:@0x01];
-    self.updateObject = @0x01;
+    [dataArr addObject:self.updateObject];
     //设备型号
-    [dataArr addObject:@0x13];
-    self.updateModel = @0x13;
+    [dataArr addObject:self.updateModel];
     //版本号
-    [dataArr addObjectsFromArray:@[@0x00, @0x92]];
+    [dataArr addObjectsFromArray:@[self.updateVersionOne, self.updateVersionTwo]];
     
-    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:self.updateFileName]];
+    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:[NSString stringWithFormat:@"%@.BIN", updateFileName]]];
     unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
     unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
     unsigned long fileSizeHexThree = strtoul([fileSizeArr[2] UTF8String],0,16);
@@ -200,7 +218,7 @@
     [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexTwo]];
     [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexThree]];
     [dataArr addObject:[NSNumber numberWithUnsignedLong:fileSizeHexFour]];
-    
+    NSLog(@"dataArr ------ %@", dataArr);
     [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:dataArr failuer:nil andSuccessBlock:^{
         [SVProgressHUD showSuccessWithStatus:@"发送成功"];
         [SVProgressHUD dismissWithDelay:1.0];
@@ -215,19 +233,19 @@
     
 }
 - (void)asideBtnClick {
-    self.updateFileName = @"TEST.BIN";
-    self.updateFileArr = [self convertBinFileToNSArrayWithFileName:self.updateFileName];
+    self.updateFileArr = [self convertBinFileToNSArrayWithFileName:[NSString stringWithFormat:@"%@.BIN", updateFileName]];
     UInt8 controlCode = 0x01;
     NSArray *arr = @[@0x00,@0x01,@0x70,@0x01];
     
     NSMutableArray *dataArr = [NSMutableArray arrayWithArray:arr];
-    [dataArr addObject:@0x02];
-    self.updateObject = @0x02;
-    [dataArr addObject:@0x12];
-    self.updateModel = @0x13;
-    [dataArr addObjectsFromArray:@[@0x00, @0x92]];
+    //更新对象
+    [dataArr addObject:self.updateObject];
+    //设备型号
+    [dataArr addObject:self.updateModel];
+    //版本号
+    [dataArr addObjectsFromArray:@[self.updateVersionOne, self.updateVersionTwo]];
     
-    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:self.updateFileName]];
+    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:[NSString stringWithFormat:@"%@.BIN", updateFileName]]];
     unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
     unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
     unsigned long fileSizeHexThree = strtoul([fileSizeArr[2] UTF8String],0,16);
@@ -247,20 +265,20 @@
     
 }
 - (void)arithBtnClick {
-    self.updateFileName = @"TEST.BIN";
-    self.updateFileArr = [self convertBinFileToNSArrayWithFileName:self.updateFileName];
+    self.updateFileArr = [self convertBinFileToNSArrayWithFileName:[NSString stringWithFormat:@"%@.BIN", updateFileName]];
     
     UInt8 controlCode = 0x01;
     NSArray *arr = @[@0x00,@0x01,@0x70,@0x01];
     
     NSMutableArray *dataArr = [NSMutableArray arrayWithArray:arr];
-    [dataArr addObject:@0x03];
-    self.updateObject = @0x03;
-    [dataArr addObject:@0x12];
-    self.updateModel = @0x12;
-    [dataArr addObjectsFromArray:@[@0x11, @0x12]];
+    //更新对象
+    [dataArr addObject:self.updateObject];
+    //设备型号
+    [dataArr addObject:self.updateModel];
+    //版本号
+    [dataArr addObjectsFromArray:@[self.updateVersionOne, self.updateVersionTwo]];
     
-    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:self.updateFileName]];
+    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:[NSString stringWithFormat:@"%@.BIN", updateFileName]]];
     unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
     unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
     unsigned long fileSizeHexThree = strtoul([fileSizeArr[2] UTF8String],0,16);
@@ -409,7 +427,7 @@
             case 15:
                 letter =@"F\n"; break;
             default:
-                letter = [NSString stringWithFormat:@"%ld\n", number];
+                letter = [NSString stringWithFormat:@"%ld\n", (long)number];
         }
         hex = [letter stringByAppendingString:hex];
         if (decimal == 0) {
@@ -429,11 +447,13 @@
     NSMutableArray *dataArr = [NSMutableArray arrayWithArray:arr];
     //更新对象
     [dataArr addObject:self.updateObject];
+    //设备型号
     [dataArr addObject:self.updateModel];
-    [dataArr addObjectsFromArray:@[@0x11, @0x12]];
+    //版本号
+    [dataArr addObjectsFromArray:@[self.updateVersionOne, self.updateVersionTwo]];
     
     
-    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:self.updateFileName]];
+    NSArray *fileSizeArr = [self getFileHexArrWithHexString:[self getFileHexStringWithFileName:[NSString stringWithFormat:@"%@.BIN", updateFileName]]];
     unsigned long fileSizeHexOne = strtoul([fileSizeArr[0] UTF8String],0,16);
     unsigned long fileSizeHexTwo = strtoul([fileSizeArr[1] UTF8String],0,16);
     unsigned long fileSizeHexThree = strtoul([fileSizeArr[2] UTF8String],0,16);

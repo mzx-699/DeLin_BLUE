@@ -43,6 +43,8 @@
 @property (nonatomic, strong) UILabel *currentVersionLabel;
 
 @property (nonatomic, strong) UIButton *updateButton;
+@property (nonatomic, strong) UIView *updateTipView;
+@property (nonatomic, strong) NSNumber *currentVersion;
 
 @end
 
@@ -95,10 +97,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(requestMainDevicesMsg:) name:@"getMainDeviceMsg" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goHomeSuccess) name:@"getHome" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(goStopSuccess) name:@"getStop" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setVersion:) name:@"setCurrentVersion:" object:nil];
     //网络请求延时
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //主页面状态查询
         [self getMainDeviceMsg];
+    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self getCurrentVersion];
     });
     
 }
@@ -113,11 +119,44 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getHome" object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"getStop" object:nil];
 }
+#pragma mark - 固件版本
+- (void)compareUpdateVersion {
+    NSString *updateVersionOneStr = [updateFileName substringWithRange:NSMakeRange(4, 2)];
+    NSString *updateVersionTwoStr = [updateFileName substringWithRange:NSMakeRange(6, 2)];
+    
+    unsigned long updateVersionOneHex = strtoul([updateVersionOneStr UTF8String],0,16);
+    unsigned long updateVersionTwoHex = strtoul([updateVersionTwoStr UTF8String],0,16);
+    
+    NSNumber *updateVersionOne = [NSNumber numberWithUnsignedLong:updateVersionOneHex];
+    NSNumber *updateVersionTwo = [NSNumber numberWithUnsignedLong:updateVersionTwoHex];
+    NSNumber *updateVersion = [NSNumber numberWithInt:updateVersionOne.intValue * 16 * 16 + updateVersionTwo.intValue];
+    self.updateTipView.hidden = updateVersion.intValue <= self.currentVersion.intValue;
+//    self.updateTipView.hidden = NO;
+    
+}
+- (void)getCurrentVersion {
+    UInt8 controlCode = 0x01;
+    NSArray *data = @[@0x00,@0x01,@0x72,@0x00];
+    [[NetWorkManager shareNetWorkManager] sendData68With:controlCode data:data failuer:nil andSuccessBlock:^{
+        [SVProgressHUD dismiss];
+    }];
+}
+- (void)setVersion:(NSNotification *)notification {
+    NSDictionary *dict = [notification userInfo];
+    NSLog(@"%@", dict);
+    NSNumber *currentVersionOne = dict[@"currentVersionOne"];
+    NSNumber *currentVersionTwo = dict[@"currentVersionTwo"];
+    self.currentVersion = [NSNumber numberWithInt:(int)(currentVersionOne.intValue * 16 * 16 + currentVersionTwo.intValue)];
+    self.currentVersionLabel.text = [NSString stringWithFormat:@"%d", self.currentVersion.intValue];
+    [self compareUpdateVersion];
+    
+}
 #pragma mark - setUpUI
 - (void)setupUI {
     [self.view addSubview:self.currentVersionTitleLabel];
     [self.view addSubview:self.currentVersionLabel];
     [self.view addSubview:self.updateButton];
+    [self.view addSubview:self.updateTipView];
 
     NSNumber *updateButtonHeight = [NSNumber numberWithFloat:self.updateButton.titleLabel.font.lineHeight];
     [self.currentVersionTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -136,8 +175,22 @@
         make.width.equalTo(@100);
         make.left.equalTo(self.timerSetBtn.mas_left).offset(3);
     }];
+    [self.updateTipView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(@10);
+        make.width.equalTo(@10);
+        make.centerY.equalTo(self.updateButton.mas_centerY);
+        make.left.equalTo(self.updateButton.mas_right).offset(-2);
+    }];
     
 
+}
+- (UIView *)updateTipView{
+    if (!_updateTipView) {
+        _updateTipView = [UIView new];
+        _updateTipView.backgroundColor = [UIColor redColor];
+        _updateTipView.layer.cornerRadius = 5;
+    }
+    return _updateTipView;
 }
 - (UILabel *)currentVersionTitleLabel{
     if (!_currentVersionTitleLabel) {
@@ -153,7 +206,7 @@
     if (!_currentVersionLabel) {
         _currentVersionLabel = [[UILabel alloc] init];
         _currentVersionLabel.numberOfLines = 0;
-        _currentVersionLabel.text = @" U135";
+        _currentVersionLabel.text = @"";
         _currentVersionLabel.font = [UIFont systemFontOfSize:15];
         _currentVersionLabel.textColor = [UIColor whiteColor];
     }

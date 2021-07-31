@@ -13,8 +13,9 @@
 typedef void (^writeSuccessBlock)(void);
 NS_ASSUME_NONNULL_BEGIN
 @protocol BlueToothManagerDelegate <NSObject>
-@required
+@optional
 - (void)reloadData;
+- (void)updatePinGoContinue;
 @end
 
 @interface BlueToothManager : NSObject <NSSecureCoding>

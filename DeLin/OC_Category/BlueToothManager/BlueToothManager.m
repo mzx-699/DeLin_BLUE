@@ -212,6 +212,9 @@
                 }
                 else if ([tempChara.UUID.UUIDString isEqualToString:@"FFF2"]) {
                     weakSelf.writeCharacteristic = tempChara;
+                    if ([weakSelf.delegate respondsToSelector:@selector(updatePinGoContinue)]) {
+                        [weakSelf.delegate updatePinGoContinue];
+                    }
                     NSLog(@"self.writeCharacteristic : %@", weakSelf.writeCharacteristic);
 
                 }
@@ -239,9 +242,9 @@
         if ([peripheralName hasPrefix:@"RM24"] || [peripheralName hasPrefix:@"RM18"]) {
             return YES;
         }
-        if (peripheralName.length >0) {
-            return YES;
-        }
+//        if (peripheralName.length >0) {
+//            return YES;
+//        }
         return NO;
     }];
 
