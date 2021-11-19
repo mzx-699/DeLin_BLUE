@@ -97,26 +97,7 @@ static int noUserInteractionHeartbeat = 0;
 //帧的发送
 - (void)send:(NSMutableArray *)msg withTag:(NSUInteger)tag andSuccessBlock:(writeSuccessBlock)writeSuccessBlock
 {
-    //    if ([GizManager shareInstance].device.netStatus == GizDeviceControlled)
-    //    {
-    //        NSUInteger len = msg.count;
-    //        UInt8 sendBuffer[len];
-    //        for (int i = 0; i < len; i++)
-    //        {
-    //            sendBuffer[i] = [[msg objectAtIndex:i] unsignedCharValue];
-    //        }
-    //
-    //        NSData *sendData = [NSData dataWithBytes:sendBuffer length:len];
-    //        NSLog(@"发送一条帧： %@",sendData);
-    //        _frameCount++;
-    //        //透传至机智云
-    //        NSDictionary *transparentData = @{@"binary":sendData};
-    //        [[GizManager shareInstance] sendTransparentDataByGizWifiSDK:transparentData];
-    //    }
-    //    else
-    //    {
-    //        NSLog(@"wifi未连接");
-    //    }
+
     NSUInteger len = msg.count;
     UInt8 sendBuffer[len];
     for (int i = 0; i < len; i++)
@@ -148,10 +129,7 @@ static int noUserInteractionHeartbeat = 0;
     [data68 addObject:[NSNumber numberWithUnsignedInteger:0x68]];
     [data68 addObject:[NSNumber numberWithUnsignedInteger:controlCode]];
     
-    //            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
-    //            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
-    //            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
-    //            [data68 addObject:[NSNumber numberWithUnsignedInteger:0x00]];
+
     
     [data68 addObject:[NSNumber numberWithInt:self->_frameCount]];
     [data68 addObject:[NSNumber numberWithInteger:data.count]];

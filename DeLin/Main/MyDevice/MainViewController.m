@@ -61,6 +61,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [NetWorkManager shareNetWorkManager].updateFlag = 0;
     [self setNavItem];
     _rainImageView = [self rainImageView];
     _batteryCircleView = [self batteryCircleView];
@@ -131,6 +132,7 @@
     NSNumber *updateVersionTwo = [NSNumber numberWithUnsignedLong:updateVersionTwoHex];
     NSNumber *updateVersion = [NSNumber numberWithInt:updateVersionOne.intValue * 16 * 16 + updateVersionTwo.intValue];
     self.updateTipView.hidden = updateVersion.intValue <= self.currentVersion.intValue;
+    self.updateButton.enabled = !(updateVersion.intValue <= self.currentVersion.intValue);
 //    self.updateTipView.hidden = NO;
     
 }
@@ -219,6 +221,7 @@
         [_updateButton setTitle:@"update" forState:UIControlStateNormal];
         _updateButton.titleLabel.font = [UIFont systemFontOfSize:17];
         _updateButton.titleLabel.textColor = [UIColor whiteColor];
+        [_updateButton setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
         [_updateButton addTarget:self action:@selector(updateButtonClick) forControlEvents:UIControlEventTouchUpInside];
         _updateButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
         //上左下右
@@ -228,6 +231,7 @@
     return _updateButton;
 }
 - (void)updateButtonClick {
+    
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Jump prompt" message:[NSString stringWithFormat:@"Update to version%@", self.currentVersionLabel.text] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *done = [UIAlertAction actionWithTitle:@"Done" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"跳转");

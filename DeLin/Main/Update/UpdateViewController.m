@@ -34,6 +34,7 @@
     [self updateFileNameAnalysisWithupdateFileName:updateFileName];
     [self setupUI];
     [NetWorkManager shareNetWorkManager].updateFrameCount = 0;
+    self.processLabel.text = @"";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendFirstUpdateFrame) name:@"sendFirstUpdateFrame" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendOtherUpdateFrame) name:@"sendOtherUpdateFrame" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sendUpdateEndFrame) name:@"sendUpdateEndFrame" object:nil];
@@ -305,7 +306,6 @@
         self.totalFrameCount = self.totalFrameCount + 1;
     }
     NSLog(@"%zd", self.totalFrameCount);
-    
     NSLog(@"%zd", endFrameLength);
     
     //第一帧

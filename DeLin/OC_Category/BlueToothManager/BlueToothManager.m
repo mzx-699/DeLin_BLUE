@@ -9,13 +9,17 @@
 #import "NetWorkManager.h"
 
 #define kFilePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"peripheral.data"]
-
+#define kMaxRewriteCount 3
 
 @interface BlueToothManager ()
 @property (nonatomic, copy) writeSuccessBlock writeSuccessBlock;
 @property (nonatomic, strong) BabyBluetooth *baby;
 @property (nonatomic, strong) CBCharacteristic *notifyCharacteristic;
 @property (nonatomic, strong) CBCharacteristic *writeCharacteristic;
+@property (nonatomic, assign) NSInteger receiveFlag;
+@property (nonatomic, strong) NSData *lastData;
+@property (nonatomic, assign) NSInteger rewriteCount;
+@property (nonatomic, strong) NSTimer *timer;
 @end
 @implementation BlueToothManager
 #pragma mark - SecureCoding
@@ -46,6 +50,8 @@
     self = [super init];
     if (self) {
         self.baby = [BabyBluetooth shareBabyBluetooth];
+        self.receiveFlag = 0;
+        self.rewriteCount = 1;
     }
     return self;
 }
@@ -94,9 +100,39 @@
 }
 #pragma mark - 写
 - (void)writeWithData:(NSData *)data andSuccessBlock:(writeSuccessBlock)writeSuccessBlock {
+    self.receiveFlag = 0;
+    self.rewriteCount = 1;
     NSLog(@"%@", data);
     [self.connectPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
     self.writeSuccessBlock = writeSuccessBlock;
+    //重发机制
+    [self.timer invalidate];
+    self.timer = nil;
+    self.timer = [NSTimer timerWithTimeInterval:1 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        [self rewriteWithData:data];
+    }];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+    
+}
+- (void)rewriteWithData:(NSData *)data {
+    NSLog(@"rewriteWithData");
+    if (self.rewriteCount <= kMaxRewriteCount && self.receiveFlag == 0) {
+        [self.connectPeripheral writeValue:data forCharacteristic:self.writeCharacteristic type:CBCharacteristicWriteWithResponse];
+        NSLog(@"重发 %@", data);
+        NSLog(@"重发第%zd次",self.rewriteCount);
+        self.rewriteCount += 1;
+    }
+    if (self.rewriteCount > kMaxRewriteCount) {
+        NSLog(@"已经重发了三次");
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    if (self.receiveFlag == 1) {
+        [self.timer invalidate];
+        self.timer = nil;
+    }
+    
+    
 }
 #pragma mark - 蓝牙配置
 -(void)babyDelegate {
@@ -205,6 +241,7 @@
                     NSLog(@"self.notifyCharacteristic : %@", weakSelf.notifyCharacteristic);
                     
                     [weakSelf.baby notify:peripheral characteristic:weakSelf.notifyCharacteristic block:^(CBPeripheral *peripheral, CBCharacteristic *characteristics, NSError *error) {
+                        weakSelf.receiveFlag = 1;
                         NSLog(@"notify %@", characteristics.value);
                         NSLog(@"notify Str %@", [[NSString alloc] initWithData:characteristics.value encoding:NSUTF8StringEncoding]);
                         [weakSelf checkOutFrame:characteristics.value];
@@ -215,6 +252,7 @@
                     if ([weakSelf.delegate respondsToSelector:@selector(updatePinGoContinue)]) {
                         [weakSelf.delegate updatePinGoContinue];
                     }
+                    
                     NSLog(@"self.writeCharacteristic : %@", weakSelf.writeCharacteristic);
 
                 }
